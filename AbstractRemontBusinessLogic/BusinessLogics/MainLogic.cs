@@ -31,9 +31,14 @@ namespace AbstractRemontBusinessLogic.BusinessLogics
         {
             var order = orderLogic.Read(new RemontBindingModel { Id = model.RemontId })?[0];
             if (order == null)
+            {
                 throw new Exception("Не найден заказ");
+            }
+            Console.WriteLine("STATUS " + order.Status);
             if (order.Status != RemontStatus.Принят)
+            {
                 throw new Exception("Заказ не в статусе \"Принят\"");
+            }
             orderLogic.CreateOrUpdate(new RemontBindingModel
             {
                 Id = order.Id,

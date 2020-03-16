@@ -11,8 +11,7 @@ namespace AbstractRemontListImplement.Implements
     {
         private readonly DataListSingleton source;
 
-        public RemontLogic() 
-        {
+        public RemontLogic() {
             source = DataListSingleton.GetInstance();
         }
 
@@ -22,20 +21,14 @@ namespace AbstractRemontListImplement.Implements
             foreach (var order in source.Remonts)
             {
                 if (!model.Id.HasValue && order.Id >= tempOrder.Id)
-                {
                     tempOrder.Id = order.Id + 1;
-                }
                 else if (model.Id.HasValue && order.Id == model.Id)
-                {
                     tempOrder = order;
-                }
             }
             if (model.Id.HasValue)
             {
                 if (tempOrder == null)
-                {
                     throw new Exception("Элемент не найден");
-                }
                 CreateModel(model, tempOrder);
             }
            else
@@ -47,9 +40,7 @@ namespace AbstractRemontListImplement.Implements
             // удаляем записи по ингредиентам и изделиям при удалении заказа
             for (int i = 0; i < source.ShipComponents.Count; ++i)
                 if (source.ShipComponents[i].ProductId == model.Id)
-                {
                     source.ShipComponents.RemoveAt(i--);
-                }
             for (int i = 0; i < source.Ships.Count; ++i)
                 if (source.Ships[i].Id == model.Id)
                     source.Ships.RemoveAt(i--);
@@ -95,11 +86,11 @@ namespace AbstractRemontListImplement.Implements
         private RemontViewModel CreateViewModel(Remont order)
         {
             string shipName = "";
-            foreach (var ship in source.Ships)
+            foreach (var product in source.Ships)
             {
-                if (ship.Id == order.ShipId)
+                if (product.Id == order.ShipId)
                 {
-                    shipName = ship.ShipName;
+                    shipName = product.ShipName;
                 }
             }
             return new RemontViewModel
