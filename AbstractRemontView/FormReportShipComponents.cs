@@ -16,10 +16,6 @@ namespace AbstractRemontView
             InitializeComponent();
             this.logic = logic;
         }
-        private void FormReportShipComponents_Load(object sender, EventArgs e)
-        {
-
-        }
         private void ButtonSaveToExcel_Click(object sender, EventArgs e)
         {
             using (var dialog = new SaveFileDialog { Filter = "xlsx|*.xlsx" })
