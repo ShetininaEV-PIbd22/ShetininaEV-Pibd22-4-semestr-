@@ -83,7 +83,7 @@ namespace AbstractRemontView
             }
             if (comboBoxShip.SelectedValue == null)
             {
-                MessageBox.Show("Выберите корабль", "Ошибка", 
+                MessageBox.Show("Выберите изделие", "Ошибка", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }

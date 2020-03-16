@@ -5,7 +5,7 @@ using System.ComponentModel;
 namespace AbstractRemontBusinessLogic.ViewModels
 {
     /// <summary>
-    /// Заявка на ремонт
+    /// Заказ
     /// </summary>
     public class RemontViewModel
     {

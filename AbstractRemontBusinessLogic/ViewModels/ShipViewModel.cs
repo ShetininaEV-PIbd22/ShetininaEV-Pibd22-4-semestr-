@@ -4,7 +4,7 @@ using System.ComponentModel;
 namespace AbstractRemontBusinessLogic.ViewModels
 {
     /// <summary>
-    /// Корабль, изготавливаемый в мастерской
+    /// Изделие, изготавливаемое в кондитерской
     /// </summary>
     public class ShipViewModel
     {

@@ -162,16 +162,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AbstractRemontBusinessLogic\AbstractRemontBusinessLogic.csproj">
-      <Project>{b80b83b4-167a-4b14-b9b7-9554f2110253}</Project>
-      <Name>AbstractRemontBusinessLogic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\AbstractRemontListImplement\AbstractRemontListImplement.csproj">
-      <Project>{769ccd10-c3a6-4e45-9dc4-46b99c0b75e7}</Project>
-      <Name>AbstractRemontListImplement</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4.7.2 %28x86 и x64%29</ProductName>
@@ -182,6 +172,16 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AbstractRemontBusinessLogic\AbstractRemontBusinessLogic.csproj">
+      <Project>{b80b83b4-167a-4b14-b9b7-9554f2110253}</Project>
+      <Name>AbstractRemontBusinessLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AbstractRemontFileImplement\AbstractRemontFileImplement.csproj">
+      <Project>{fdc03b47-8d1e-4d0a-aee3-6aa4b2a910dd}</Project>
+      <Name>AbstractRemontFileImplement</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
