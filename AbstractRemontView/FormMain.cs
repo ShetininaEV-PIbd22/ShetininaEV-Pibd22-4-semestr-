@@ -15,6 +15,7 @@ namespace AbstractRemontView
         private readonly MainLogic logic;
 
         private readonly IRemontLogic orderLogic;
+        private readonly ReportLogic report;
 
         public FormMain(MainLogic logic, IRemontLogic orderLogic)
         {
@@ -121,6 +122,30 @@ namespace AbstractRemontView
         private void buttonRef_Click(object sender, EventArgs e)
         {
             LoadData();
+        }
+
+        private void списокКомпонентовToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var dialog = new SaveFileDialog { Filter = "docx|*.docx" })
+            {
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    report.SaveComponentsToWordFile(new ReportBindingModel { FileName = dialog.FileName });
+                    MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+        }
+
+        private void компонентыПоКораблямToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormReportShipComponents>();
+            form.ShowDialog();
+        }
+
+        private void списокЗаказовToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormReportRemonts>();
+            form.ShowDialog();
         }
     }
 }
