@@ -12,9 +12,6 @@ namespace AbstractRemontBusinessLogic.BusinessLogics
     // Создание заказа и смена его статусов
     public class MainLogic
     {
-        //private readonly IComponentLogic componentLogic;
-        //private readonly IShipLogic shipLogic;
-        
         private readonly IRemontLogic orderLogic;
         public MainLogic(IRemontLogic orderLogic)
         {
