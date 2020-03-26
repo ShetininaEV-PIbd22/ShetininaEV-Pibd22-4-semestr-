@@ -5,10 +5,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{FDC03B47-8D1E-4D0A-AEE3-6AA4B2A910DD}</ProjectGuid>
+    <ProjectGuid>{554DC563-4773-47A4-8CF1-F27B880055E9}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>AbstractRemontFileImplement</RootNamespace>
-    <AssemblyName>AbstractRemontFileImplement</AssemblyName>
+    <RootNamespace>AbstractRemontDatabaseImplement</RootNamespace>
+    <AssemblyName>AbstractRemontDatabaseImplement</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -36,7 +36,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject />
+    <StartupObject>
+    </StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -144,10 +145,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FileDataListSingleton.cs" />
+    <Compile Include="AbstractRemontDatabase.cs" />
     <Compile Include="Implements\ComponentLogic.cs" />
     <Compile Include="Implements\RemontLogic.cs" />
     <Compile Include="Implements\ShipLogic.cs" />
+    <Compile Include="Migrations\20200308130605_InitialCreate.cs" />
+    <Compile Include="Migrations\20200308130605_InitialCreate.designer.cs">
+      <DependentUpon>20200308130605_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\AbstractRemontDatabaseModelSnapshot.cs" />
     <Compile Include="Models\Component.cs" />
     <Compile Include="Models\Remont.cs" />
     <Compile Include="Models\Ship.cs" />
@@ -161,7 +167,6 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -179,12 +184,8 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AbstractRemontBusinessLogic\AbstractRemontBusinessLogic.csproj">
-      <Project>{b80b83b4-167a-4b14-b9b7-9554f2110253}</Project>
+      <Project>{B80B83B4-167A-4B14-B9B7-9554F2110253}</Project>
       <Name>AbstractRemontBusinessLogic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\AbstractRemontListImplement\AbstractRemontListImplement.csproj">
-      <Project>{769ccd10-c3a6-4e45-9dc4-46b99c0b75e7}</Project>
-      <Name>AbstractRemontListImplement</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

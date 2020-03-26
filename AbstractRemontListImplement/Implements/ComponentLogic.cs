@@ -18,33 +18,25 @@ namespace AbstractRemontListImplement.Implements
 
         public void CreateOrUpdate(ComponentBindingModel model)
         {
-            Component tempComponent = model.Id.HasValue ? null : new Component { Id = 1 };
-            foreach (var component in source.Components)
+            Component tempIngredient = model.Id.HasValue ? null : new Component { Id = 1 };
+            foreach (var ingredient in source.Components)
             {
-                if (component.ComponentName == model.ComponentName && component.Id != model.Id)
-                {
-                    throw new Exception("Уже есть компонент  с таким названием");
-                }
-                if (!model.Id.HasValue && component.Id >= tempComponent.Id)
-                {
-                    tempComponent.Id = component.Id + 1;
-                }
-                else if (model.Id.HasValue && component.Id == model.Id)
-                {
-                    tempComponent = component;
-                }
+                if (ingredient.ComponentName == model.ComponentName && ingredient.Id != model.Id)
+                    throw new Exception("Уже есть ингредиент с таким названием");
+                if (!model.Id.HasValue && ingredient.Id >= tempIngredient.Id)
+                    tempIngredient.Id = ingredient.Id + 1;
+                else if (model.Id.HasValue && ingredient.Id == model.Id)
+                    tempIngredient = ingredient;
             }
             if (model.Id.HasValue)
             {
-                if (tempComponent == null)
-                {
+                if (tempIngredient == null)
                     throw new Exception("Элемент не найден");
-                }
-                CreateModel(model, tempComponent);
+                CreateModel(model, tempIngredient);
             }
             else
             {
-                source.Components.Add(CreateModel(model, tempComponent));
+                source.Components.Add(CreateModel(model, tempIngredient));
             }
         }
 

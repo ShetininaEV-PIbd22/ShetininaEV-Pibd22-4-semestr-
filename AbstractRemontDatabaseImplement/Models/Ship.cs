@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AbstractRemontListImplement.Models
+namespace AbstractRemontDatabaseImplement.Models
 {
-    /// <summary>
-    /// Изделие, изготавливаемое в кондитерской
-    /// </summary>
     public class Ship
     {
         public int Id { get; set; }
+        [Required]
         public string ShipName { get; set; }
+        [Required]
         public decimal Price { get; set; }
+        public virtual List<ShipComponent> ShipComponent { get; set; }
+        public virtual List<Remont> Remonts { get; set; }
     }
 }
