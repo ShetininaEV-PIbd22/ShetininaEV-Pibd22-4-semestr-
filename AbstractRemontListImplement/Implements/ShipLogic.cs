@@ -18,30 +18,24 @@ namespace AbstractRemontListImplement.Implements
 
         public void CreateOrUpdate(ShipBindingModel model)
         {
-            Ship tempShip = model.Id.HasValue ? null : new Ship { Id = 1 };
-            foreach (var ship in source.Ships)
+            Ship tempProduct = model.Id.HasValue ? null : new Ship { Id = 1 };
+            foreach (var product in source.Ships)
             {
-                if (ship.ShipName == model.ShipName && ship.Id != model.Id)
+                if (product.ShipName == model.ShipName && product.Id != model.Id)
                     throw new Exception("Уже есть корабль с таким названием");
-                if (!model.Id.HasValue && ship.Id >= tempShip.Id)
-                {
-                    tempShip.Id = ship.Id + 1;
-                }
-                else if (model.Id.HasValue && ship.Id == model.Id)
-                {
-                    tempShip = ship;
-                }
+                if (!model.Id.HasValue && product.Id >= tempProduct.Id)
+                    tempProduct.Id = product.Id + 1;
+                else if (model.Id.HasValue && product.Id == model.Id)
+                    tempProduct = product;
             }
             if (model.Id.HasValue)
             {
-                if (tempShip == null)
-                {
+                if (tempProduct == null)
                     throw new Exception("Элемент не найден");
-                }
-                CreateModel(model, tempShip);
+                CreateModel(model, tempProduct);
             }
             else
-                source.Ships.Add(CreateModel(model, tempShip));
+                source.Ships.Add(CreateModel(model, tempProduct));
         }
 
         public void Delete(ShipBindingModel model)
@@ -62,18 +56,18 @@ namespace AbstractRemontListImplement.Implements
         public List<ShipViewModel> Read(ShipBindingModel model)
         {
             List<ShipViewModel> result = new List<ShipViewModel>();
-            foreach (var ship in source.Ships)
+            foreach (var ingredient in source.Ships)
             {
                 if (model != null)
                 {
-                    if (ship.Id == model.Id)
+                    if (ingredient.Id == model.Id)
                     {
-                        result.Add(CreateViewModel(ship));
+                        result.Add(CreateViewModel(ingredient));
                         break;
                     }
                     continue;
                 }
-                result.Add(CreateViewModel(ship));
+                result.Add(CreateViewModel(ingredient));
             }
             return result;
         }
@@ -87,9 +81,7 @@ namespace AbstractRemontListImplement.Implements
             for (int i = 0; i < source.ShipComponents.Count; ++i)
             {
                 if (source.ShipComponents[i].Id > maxPCId)
-                {
                     maxPCId = source.ShipComponents[i].Id;
-                }
                 if (source.ShipComponents[i].ProductId == product.Id)
                 {
                     // если в модели пришла запись ингредиента с таким id

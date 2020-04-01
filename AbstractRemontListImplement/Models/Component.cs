@@ -1,7 +1,7 @@
 ﻿namespace AbstractRemontListImplement.Models
 {
     /// <summary>
-    /// Компонент, требуемый для изготовления коробля
+    /// Ингредиент, требуемый для изготовления кондитерского изделия
     /// </summary>
     public class Component
     {

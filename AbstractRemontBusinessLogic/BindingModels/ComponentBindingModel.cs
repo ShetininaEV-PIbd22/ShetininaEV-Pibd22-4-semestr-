@@ -1,7 +1,7 @@
 ﻿namespace AbstractRemontBusinessLogic.BindingModels
 {
     /// <summary>
-    ///  Компоненты, требуемые для изготовления коробля 
+    ///  Ингредиент, требуемый для изготовления кондитерского изделия 
     /// </summary>
     public class ComponentBindingModel
     {
