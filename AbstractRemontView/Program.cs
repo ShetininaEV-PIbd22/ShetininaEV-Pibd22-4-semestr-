@@ -1,4 +1,4 @@
-﻿using AbstractRemontBusinessLogic.BusinessLogics;
+using AbstractRemontBusinessLogic.BusinessLogics;
 using AbstractRemontBusinessLogic.Interfaces;
 using AbstractRemontFileImplement.Implements;
 using System;
