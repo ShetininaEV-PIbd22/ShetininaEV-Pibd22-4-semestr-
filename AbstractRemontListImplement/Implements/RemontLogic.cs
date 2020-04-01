@@ -44,21 +44,14 @@ namespace AbstractRemontListImplement.Implements
 
         public void Delete(RemontBindingModel model)
         {
-            // удаляем записи по ингредиентам и изделиям при удалении заказа
-            for (int i = 0; i < source.ShipComponents.Count; ++i)
-                if (source.ShipComponents[i].ProductId == model.Id)
-                {
-                    source.ShipComponents.RemoveAt(i--);
-                }
-            for (int i = 0; i < source.Ships.Count; ++i)
-                if (source.Ships[i].Id == model.Id)
-                    source.Ships.RemoveAt(i--);
-            for (int i = 0; i < source.Ships.Count; ++i)
-                if (source.Remonts[i].Id == model.Id)
+            for (int i = 0; i < source.Remonts.Count; ++i)
+            {
+                if (source.Remonts[i].Id == model.Id.Value)
                 {
                     source.Remonts.RemoveAt(i);
                     return;
                 }
+            }
             throw new Exception("Элемент не найден");
         }
 
