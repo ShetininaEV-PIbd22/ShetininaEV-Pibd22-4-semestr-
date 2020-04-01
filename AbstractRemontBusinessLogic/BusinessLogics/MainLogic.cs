@@ -31,13 +31,9 @@ namespace AbstractRemontBusinessLogic.BusinessLogics
         {
             var order = orderLogic.Read(new RemontBindingModel { Id = model.RemontId })?[0];
             if (order == null)
-            {
-                throw new Exception("Не найдена заявка на ремонт");
-            }
+                throw new Exception("Не найден заказ");
             if (order.Status != RemontStatus.Принят)
-            {
-                throw new Exception("Ремонт не в статусе \"Принят\"");
-            }
+                throw new Exception("Заказ не в статусе \"Принят\"");
             orderLogic.CreateOrUpdate(new RemontBindingModel
             {
                 Id = order.Id,
@@ -54,13 +50,9 @@ namespace AbstractRemontBusinessLogic.BusinessLogics
         {
             var order = orderLogic.Read(new RemontBindingModel { Id = model.RemontId})?[0];
             if (order == null)
-            {
-                throw new Exception("Не найдена заявка на ремонт");
-            }
+                throw new Exception("Не найден заказ");
             if (order.Status != RemontStatus.Выполняется)
-            {
-                throw new Exception("Ремонт не в статусе \"Выполняется\"");
-            }
+                throw new Exception("Заказ не в статусе \"Выполняется\"");
             orderLogic.CreateOrUpdate(new RemontBindingModel
             {
                 Id = order.Id,
@@ -77,13 +69,9 @@ namespace AbstractRemontBusinessLogic.BusinessLogics
         {
             var order = orderLogic.Read(new RemontBindingModel { Id = model.RemontId})?[0];
             if (order == null)
-            {
-                throw new Exception("Не найдена заявка на ремонт");
-            }
+                throw new Exception("Не найден заказ");
             if (order.Status != RemontStatus.Готов)
-            {
-                throw new Exception("Ремонт не в статусе \"Готов\"");
-            }
+                throw new Exception("Заказ не в статусе \"Готов\"");
             orderLogic.CreateOrUpdate(new RemontBindingModel
             {
                 Id = order.Id,

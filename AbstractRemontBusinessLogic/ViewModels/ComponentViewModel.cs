@@ -3,7 +3,7 @@
 namespace AbstractRemontBusinessLogic.ViewModels
 {
     /// <summary>     
-    /// Компонент, требуемый для изготовления коробля 
+    /// Ингредиент, требуемый для изготовления изделия 
     /// </summary> 
     public class ComponentViewModel
     {

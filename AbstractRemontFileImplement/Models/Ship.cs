@@ -4,11 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AbstractRemontListImplement.Models
+namespace AbstractRemontFileImplement.Models
 {
-    /// <summary>
-    /// Изделие, изготавливаемое в кондитерской
-    /// </summary>
     public class Ship
     {
         public int Id { get; set; }

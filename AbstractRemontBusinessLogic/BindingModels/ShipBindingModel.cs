@@ -3,7 +3,7 @@
 namespace AbstractRemontBusinessLogic.BindingModels
 {
     /// <summary>     
-    /// Корабль, изготавливаемый в мастерской     
+    /// Изделие, изготавливаемое в кондитерской     
     /// </summary> 
     public class ShipBindingModel
     {
