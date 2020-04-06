@@ -83,7 +83,7 @@ namespace AbstractRemontView
             }
             if (comboBoxShip.SelectedValue == null)
             {
-                MessageBox.Show("Выберите изделие", "Ошибка", 
+                MessageBox.Show("Выберите корабль", "Ошибка", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -95,7 +95,7 @@ namespace AbstractRemontView
                     Count = Convert.ToInt32(textBoxCount.Text),
                     Sum = Convert.ToDecimal(textBoxSum.Text)
                 });
-                MessageBox.Show("Сохранение прошло успешно", "Сообщение", 
+                MessageBox.Show("Сохранение прошло успешно", "Сообщение",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DialogResult = DialogResult.OK;
                 Close();

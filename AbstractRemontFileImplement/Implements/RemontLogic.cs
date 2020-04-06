@@ -1,10 +1,13 @@
 ﻿using AbstractRemontBusinessLogic.BindingModels;
+using AbstractRemontBusinessLogic.Enums;
 using AbstractRemontBusinessLogic.Interfaces;
 using AbstractRemontBusinessLogic.ViewModels;
 using AbstractRemontFileImplement.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace AbstractRemontFileImplement.Implements
 {
@@ -28,7 +31,8 @@ namespace AbstractRemontFileImplement.Implements
             }
             else
             {
-                int maxId = source.Remonts.Count > 0 ? source.Remonts.Max(rec => rec.Id) : 0;
+                int maxId = source.Remonts.Count > 0 ? source.Remonts.Max(rec =>
+               rec.Id) : 0;
                 element = new Remont { Id = maxId + 1 };
                 source.Remonts.Add(element);
             }
@@ -41,6 +45,7 @@ namespace AbstractRemontFileImplement.Implements
         }
         public void Delete(RemontBindingModel model)
         {
+            // удаяем записи по компонентам при удалении изделия
             Remont element = source.Remonts.FirstOrDefault(rec => rec.Id ==model.Id);
             if (element != null)
             {

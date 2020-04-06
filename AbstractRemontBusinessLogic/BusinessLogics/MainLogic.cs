@@ -14,7 +14,6 @@ namespace AbstractRemontBusinessLogic.BusinessLogics
         {
             this.orderLogic = orderLogic;
         }
-
         public void CreateRemont(CreateRemontBindingModel model)
         {
             orderLogic.CreateOrUpdate(new RemontBindingModel
@@ -48,7 +47,7 @@ namespace AbstractRemontBusinessLogic.BusinessLogics
 
         public void FinishRemont(ChangeStatusBindingModel model)
         {
-            var order = orderLogic.Read(new RemontBindingModel { Id = model.RemontId})?[0];
+            var order = orderLogic.Read(new RemontBindingModel { Id = model.RemontId })?[0];
             if (order == null)
                 throw new Exception("Не найден заказ");
             if (order.Status != RemontStatus.Выполняется)
@@ -67,7 +66,7 @@ namespace AbstractRemontBusinessLogic.BusinessLogics
 
         public void PayRemont(ChangeStatusBindingModel model)
         {
-            var order = orderLogic.Read(new RemontBindingModel { Id = model.RemontId})?[0];
+            var order = orderLogic.Read(new RemontBindingModel { Id = model.RemontId })?[0];
             if (order == null)
                 throw new Exception("Не найден заказ");
             if (order.Status != RemontStatus.Готов)
