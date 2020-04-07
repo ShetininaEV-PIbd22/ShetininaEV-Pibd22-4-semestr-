@@ -37,6 +37,7 @@ namespace AbstractRemontListImplement.Implements
 
         public void Delete(RemontBindingModel model)
         {
+            // удаляем записи по ингредиентам и изделиям при удалении заказа
             for (int i = 0; i < source.Remonts.Count; ++i)
             {
                 if (source.Remonts[i].Id == model.Id.Value)
