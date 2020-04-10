@@ -40,24 +40,7 @@ namespace AbstractRemontListImplement.Implements
 
         public void FinishOrder(RemontBindingModel model)
         {
-            int index = -1;
-            for (int i = 0; i < source.Remonts.Count; ++i)
-            {
-                if (source.Remonts[i].Id == model.Id)
-                {
-                    index = i;
-                    break;
-                }
-            }
-            if (index == -1)
-            {
-                throw new Exception("Заявка на ремонт не найдена");
-            }
-            if (source.Remonts[index].Status != RemontStatus.Принят)
-            {
-                throw new Exception("Ремонт не в статусе \"Принят\"");
-            }
-            source.Remonts[index].Status = RemontStatus.Выполняется;
+            // как же его реализовать…
         }
 
         public List<RemontViewModel> GetOrders()
@@ -102,13 +85,13 @@ namespace AbstractRemontListImplement.Implements
             }
             if (index == -1)
             {
-                throw new Exception("Заявка на ремонт не найдена");
+                throw new Exception("Элемент не найден");
             }
-            if (source.Remonts[index].Status != RemontStatus.Готов)
+            if (source.Remonts[index].Status != RemontStatus.Выполняется)
             {
-                throw new Exception("Ремонт не в статусе \"Готов\"");
+                throw new Exception("Заказ не в статусе \"Выполняется\"");
             }
-            source.Remonts[index].Status = RemontStatus.Оплачен;
+            source.Remonts[index].Status = RemontStatus.Готов;
         }
 
         public void TakeOrderInWork(RemontBindingModel model)
@@ -124,7 +107,7 @@ namespace AbstractRemontListImplement.Implements
             }
             if (index == -1)
             {
-                throw new Exception("Заявка на ремонт не найдена");
+                throw new Exception("Элемент не найден");
             }
             if (source.Remonts[index].Status != RemontStatus.Принят)
             {

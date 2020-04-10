@@ -17,7 +17,7 @@ namespace AbstractRemontDatabaseImplement.Implements
         {
             using (var context = new AbstractRemontDatabase())
             {
-                Remont element;
+                Remont element;// = context.Remonts.FirstOrDefault(rec => rec.Id == model.Id);
                 if (model.Id.HasValue)
                 {
                     element = context.Remonts.FirstOrDefault(rec => rec.Id == model.Id);
@@ -61,11 +61,10 @@ namespace AbstractRemontDatabaseImplement.Implements
             using (var context = new AbstractRemontDatabase())
             {
                 return context.Remonts
-                .Include(rec => rec.Ship)
-                .Where(rec => model == null || rec.Id == model.Id)
                 .Select(rec => new RemontViewModel
                 {
-                    Id = rec.ShipId,
+                    Id = rec.Id,
+                    ShipId = rec.ShipId,
                     ShipName = rec.Ship.ShipName,
                     Count = rec.Count,
                     Sum = rec.Sum,

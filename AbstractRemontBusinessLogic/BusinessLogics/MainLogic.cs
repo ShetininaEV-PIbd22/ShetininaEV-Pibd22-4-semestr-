@@ -1,15 +1,19 @@
 ﻿using AbstractRemontBusinessLogic.BindingModels;
 using AbstractRemontBusinessLogic.Enums;
+using AbstractRemontBusinessLogic.HelperModels;
 using AbstractRemontBusinessLogic.Interfaces;
+using AbstractRemontBusinessLogic.ViewModels;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace AbstractRemontBusinessLogic.BusinessLogics
 {
     // Создание заказа и смена его статусов
     public class MainLogic
     {
+        
         private readonly IRemontLogic orderLogic;
-
         public MainLogic(IRemontLogic orderLogic)
         {
             this.orderLogic = orderLogic;
@@ -30,9 +34,13 @@ namespace AbstractRemontBusinessLogic.BusinessLogics
         {
             var order = orderLogic.Read(new RemontBindingModel { Id = model.RemontId })?[0];
             if (order == null)
+            {
                 throw new Exception("Не найден заказ");
+            }
             if (order.Status != RemontStatus.Принят)
+            {
                 throw new Exception("Заказ не в статусе \"Принят\"");
+            }
             orderLogic.CreateOrUpdate(new RemontBindingModel
             {
                 Id = order.Id,
@@ -47,11 +55,15 @@ namespace AbstractRemontBusinessLogic.BusinessLogics
 
         public void FinishRemont(ChangeStatusBindingModel model)
         {
-            var order = orderLogic.Read(new RemontBindingModel { Id = model.RemontId })?[0];
+            var order = orderLogic.Read(new RemontBindingModel { Id = model.RemontId})?[0];
             if (order == null)
+            {
                 throw new Exception("Не найден заказ");
+            }
             if (order.Status != RemontStatus.Выполняется)
+            {
                 throw new Exception("Заказ не в статусе \"Выполняется\"");
+            }
             orderLogic.CreateOrUpdate(new RemontBindingModel
             {
                 Id = order.Id,
@@ -66,11 +78,15 @@ namespace AbstractRemontBusinessLogic.BusinessLogics
 
         public void PayRemont(ChangeStatusBindingModel model)
         {
-            var order = orderLogic.Read(new RemontBindingModel { Id = model.RemontId })?[0];
+            var order = orderLogic.Read(new RemontBindingModel { Id = model.RemontId})?[0];
             if (order == null)
+            {
                 throw new Exception("Не найден заказ");
+            }
             if (order.Status != RemontStatus.Готов)
+            {
                 throw new Exception("Заказ не в статусе \"Готов\"");
+            }
             orderLogic.CreateOrUpdate(new RemontBindingModel
             {
                 Id = order.Id,

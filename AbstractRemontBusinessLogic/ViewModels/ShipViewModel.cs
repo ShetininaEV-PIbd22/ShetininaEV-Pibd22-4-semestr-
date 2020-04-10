@@ -15,7 +15,6 @@ namespace AbstractRemontBusinessLogic.ViewModels
 
         [DisplayName("Цена")]
         public decimal Price { get; set; }
-
         public Dictionary<int, (string, int)> ShipComponents { get; set; }
     }
 }

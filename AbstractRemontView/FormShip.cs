@@ -149,6 +149,10 @@ namespace AbstractRemontView
             }
             try
             {
+                foreach (var pi in productIngredients)
+                {
+                    Console.WriteLine(pi);
+                }
                 logic.CreateOrUpdate(new ShipBindingModel
                 {
                     Id = id,
