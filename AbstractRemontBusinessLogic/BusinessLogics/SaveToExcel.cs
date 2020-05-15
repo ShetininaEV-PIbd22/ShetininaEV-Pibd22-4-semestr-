@@ -16,7 +16,7 @@ namespace AbstractRemontBusinessLogic.BusinessLogics
         {
             using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Create(info.FileName, SpreadsheetDocumentType.Workbook))
             {
-                // Создаем книгу (в ней хранятся листы)
+                 // Создаем книгу (в ней хранятся листы)
                 WorkbookPart workbookpart = spreadsheetDocument.AddWorkbookPart();
                 workbookpart.Workbook = new Workbook();
                 CreateStyles(workbookpart);
@@ -68,16 +68,7 @@ namespace AbstractRemontBusinessLogic.BusinessLogics
 
                 uint rowIndex = 2;
 
-                List<DateTime> dates = new List<DateTime>();
-                foreach (var order in info.Remonts)
-                {
-                    if (!dates.Contains(order.DateCreate.Date))
-                    {
-                        dates.Add(order.DateCreate.Date);
-                    }
-                }
-
-                foreach (var date in dates)
+                foreach (var date in info.Remonts)
                 {
                     decimal dateSum = 0;
 
@@ -87,13 +78,13 @@ namespace AbstractRemontBusinessLogic.BusinessLogics
                         ShareStringPart = shareStringPart,
                         ColumnName = "A",
                         RowIndex = rowIndex,
-                        Text = date.Date.ToString(),
+                        Text = date.Key.ToString(),
                         StyleIndex = 0U
                     });
 
                     rowIndex++;
 
-                    foreach (var order in info.Remonts.Where(rec => rec.DateCreate.Date == date.Date))
+                    foreach (var order in date)
                     {
                         InsertCellInWorksheet(new ExcelCellParameters
                         {
@@ -116,7 +107,6 @@ namespace AbstractRemontBusinessLogic.BusinessLogics
                         });
 
                         dateSum += order.Sum;
-
                         rowIndex++;
                     }
 
