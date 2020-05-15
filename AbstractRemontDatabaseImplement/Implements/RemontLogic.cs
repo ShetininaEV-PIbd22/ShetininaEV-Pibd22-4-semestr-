@@ -17,7 +17,7 @@ namespace AbstractRemontDatabaseImplement.Implements
         {
             using (var context = new AbstractRemontDatabase())
             {
-                Remont element;// = context.Remonts.FirstOrDefault(rec => rec.Id == model.Id);
+                Remont element;
                 if (model.Id.HasValue)
                 {
                     element = context.Remonts.FirstOrDefault(rec => rec.Id == model.Id);
