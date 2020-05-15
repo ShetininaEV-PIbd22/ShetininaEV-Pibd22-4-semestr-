@@ -61,11 +61,10 @@ namespace AbstractRemontDatabaseImplement.Implements
             using (var context = new AbstractRemontDatabase())
             {
                 return context.Remonts
-                .Include(rec => rec.Ship)
-                .Where(rec => model == null || rec.Id == model.Id)
                 .Select(rec => new RemontViewModel
                 {
-                    Id = rec.ShipId,
+                    Id = rec.Id,
+                    ShipId = rec.ShipId,
                     ShipName = rec.Ship.ShipName,
                     Count = rec.Count,
                     Sum = rec.Sum,
