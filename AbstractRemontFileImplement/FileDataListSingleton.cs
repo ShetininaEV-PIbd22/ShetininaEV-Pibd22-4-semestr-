@@ -14,16 +14,19 @@ namespace AbstractRemontFileImplement
     {
         private static FileDataListSingleton instance;
         private readonly string ComponentFileName = "Component.xml";
+        private readonly string ClientFileName = "Client.xml";
         private readonly string RemontFileName = "Remont.xml";
         private readonly string ShipFileName = "Ship.xml";
         private readonly string ShipComponentFileName = "ShipComponent.xml";
         public List<Component> Components { get; set; }
+        public List<Client> Clients { get; set; }
         public List<Remont> Remonts { get; set; }
         public List<Ship> Ships { get; set; }
         public List<ShipComponent> ShipComponents { get; set; }
         private FileDataListSingleton()
         {
             Components = LoadComponents();
+            Clients= LoadClients();
             Remonts = LoadRemonts();
             Ships = LoadShips();
             ShipComponents = LoadShipComponents();
@@ -39,6 +42,7 @@ namespace AbstractRemontFileImplement
         ~FileDataListSingleton()
         {
             SaveComponents();
+            SaveClients();
             SaveRemonts();
             SaveShips();
             SaveShipComponents();
@@ -56,6 +60,27 @@ namespace AbstractRemontFileImplement
                     {
                         Id = Convert.ToInt32(elem.Attribute("Id").Value),
                         ComponentName = elem.Element("ComponentName").Value
+                    });
+                }
+            }
+            return list;
+        }
+        private List<Client> LoadClients()
+        {
+            var list = new List<Client>();
+            if (File.Exists(ClientFileName))
+            {
+                XDocument xDocument = XDocument.Load(ClientFileName);
+                var xElements = xDocument.Root.Elements("Client").ToList();
+
+                foreach (var elem in xElements)
+                {
+                    list.Add(new Client
+                    {
+                        Id = Convert.ToInt32(elem.Attribute("Id").Value),
+                        FIO = elem.Element("FIO").Value,
+                        Login = elem.Element("Email").Value,
+                        Password = elem.Element("Password").Value
                     });
                 }
             }
@@ -80,6 +105,7 @@ namespace AbstractRemontFileImplement
                         list.Add(new Remont
                         {
                             Id = Convert.ToInt32(elem.Attribute("Id").Value),
+                            ClientId= Convert.ToInt32(elem.Attribute("ClientId").Value),
                             ShipId = Convert.ToInt32(elem.Element("ShipId").Value),
                             Count = Convert.ToInt32(elem.Element("Count").Value),
                             Sum = Convert.ToDecimal(elem.Element("Sum").Value),
@@ -147,6 +173,23 @@ namespace AbstractRemontFileImplement
                 xDocument.Save(ComponentFileName);
             }
         }
+        private void SaveClients()
+        {
+            if (Clients != null)
+            {
+                var xElement = new XElement("Clients");
+                foreach (var client in Clients)
+                {
+                    xElement.Add(new XElement("Client",
+                    new XAttribute("Id", client.Id),
+                    new XElement("FIO", client.FIO),
+                    new XElement("Email", client.Login),
+                    new XElement("Password", client.Password)));
+                }
+                XDocument xDocument = new XDocument(xElement);
+                xDocument.Save(ClientFileName);
+            }
+        }
         private void SaveRemonts()
         {
             if (Remonts != null)
@@ -156,6 +199,7 @@ namespace AbstractRemontFileImplement
                 {
                     xElement.Add(new XElement("Remont",
                     new XAttribute("Id", order.Id),
+                    new XAttribute("ClientId", order.ClientId),
                     new XElement("ShipId", order.ShipId),
                     new XElement("Count", order.Count),
                     new XElement("Sum", order.Sum),

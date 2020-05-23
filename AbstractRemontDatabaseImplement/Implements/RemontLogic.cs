@@ -13,66 +13,72 @@ namespace AbstractRemontDatabaseImplement.Implements
 {
     public class RemontLogic : IRemontLogic
     {
+        private readonly AbstractRemontDatabase source;
         public void CreateOrUpdate(RemontBindingModel model)
         {
             using (var context = new AbstractRemontDatabase())
             {
-                Remont element;// = context.Remonts.FirstOrDefault(rec => rec.Id == model.Id);
+                Remont order;
                 if (model.Id.HasValue)
                 {
-                    element = context.Remonts.FirstOrDefault(rec => rec.Id == model.Id);
-                    if (element == null)
-                    {
+                    order = context.Remonts.ToList().FirstOrDefault(rec => rec.Id == model.Id);
+                    if (order == null)
                         throw new Exception("Элемент не найден");
-                    }
                 }
                 else
                 {
-                    element = new Remont();
-                    context.Remonts.Add(element);
+                    order = new Remont();
+                    context.Remonts.Add(order);
                 }
-                element.ShipId = model.ShipId == 0 ? element.ShipId : model.ShipId;
-                element.Count = model.Count;
-                element.Sum = model.Sum;
-                element.Status = model.Status;
-                element.DateCreate = model.DateCreate;
-                element.DateImplement = model.DateImplement;
+                order.ShipId = model.ShipId;
+                order.ClientFIO = model.ClientFIO;
+                order.ClientId = model.ClientId;
+                order.Count = model.Count;
+                order.DateCreate = model.DateCreate;
+                order.DateImplement = model.DateImplement;
+                order.Status = model.Status;
+                order.Sum = model.Sum;
                 context.SaveChanges();
             }
         }
+
         public void Delete(RemontBindingModel model)
         {
             using (var context = new AbstractRemontDatabase())
             {
-                Remont element = context.Remonts.FirstOrDefault(rec => rec.Id == model.Id);
-                if (element != null)
+                Remont order = context.Remonts.FirstOrDefault(rec => rec.Id == model.Id);
+                if (order != null)
                 {
-                    context.Remonts.Remove(element);
-                    context.SaveChanges();
+                    context.Remonts.Remove(order);
                 }
                 else
                 {
                     throw new Exception("Элемент не найден");
                 }
+                context.SaveChanges();
             }
         }
+
         public List<RemontViewModel> Read(RemontBindingModel model)
         {
             using (var context = new AbstractRemontDatabase())
             {
-                return context.Remonts
-                .Select(rec => new RemontViewModel
+                return context.Remonts.Where(rec => model == null || rec.Id == model.Id || (rec.DateCreate >= model.DateFrom)
+                && (rec.DateCreate <= model.DateTo) || model.ClientId == rec.ClientId)
+                .Include(ord => ord.Ship)
+                .Select(rec => new RemontViewModel()
                 {
                     Id = rec.Id,
                     ShipId = rec.ShipId,
+                    ClientFIO = rec.ClientFIO,
+                    ClientId = rec.ClientId,
                     ShipName = rec.Ship.ShipName,
                     Count = rec.Count,
-                    Sum = rec.Sum,
-                    Status = rec.Status,
                     DateCreate = rec.DateCreate,
-                    DateImplement = rec.DateImplement
-                })
-                .ToList();
+                    DateImplement = rec.DateImplement,
+                    Status = rec.Status,
+                    Sum = rec.Sum
+                }).ToList();
             }
         }
     }

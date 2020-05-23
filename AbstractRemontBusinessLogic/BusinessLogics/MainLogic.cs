@@ -23,6 +23,8 @@ namespace AbstractRemontBusinessLogic.BusinessLogics
             orderLogic.CreateOrUpdate(new RemontBindingModel
             {
                 ShipId = model.ShipId,
+                ClientId = model.ClientId,
+                ClientFIO = model.ClientFIO,
                 Count = model.Count,
                 Sum = model.Sum,
                 DateCreate = DateTime.Now,
@@ -44,6 +46,8 @@ namespace AbstractRemontBusinessLogic.BusinessLogics
             orderLogic.CreateOrUpdate(new RemontBindingModel
             {
                 Id = order.Id,
+                ClientId = order.ClientId,
+                ClientFIO = order.ClientFIO,
                 ShipId = order.ShipId,
                 Count = order.Count,
                 Sum = order.Sum,
@@ -67,6 +71,8 @@ namespace AbstractRemontBusinessLogic.BusinessLogics
             orderLogic.CreateOrUpdate(new RemontBindingModel
             {
                 Id = order.Id,
+                ClientId = order.ClientId,
+                ClientFIO = order.ClientFIO,
                 ShipId = order.ShipId,
                 Count = order.Count,
                 Sum = order.Sum,
@@ -90,6 +96,8 @@ namespace AbstractRemontBusinessLogic.BusinessLogics
             orderLogic.CreateOrUpdate(new RemontBindingModel
             {
                 Id = order.Id,
+                ClientId = order.ClientId,
+                ClientFIO = order.ClientFIO,
                 ShipId = order.ShipId,
                 Count = order.Count,
                 Sum = order.Sum,

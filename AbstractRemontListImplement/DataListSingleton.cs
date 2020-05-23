@@ -6,6 +6,7 @@ namespace AbstractRemontListImplement
     public class DataListSingleton
     {
         private static DataListSingleton instance;
+        public List<Client> Clients { get; set; }
 
         public List<Component> Components { get; set; }
 
@@ -18,6 +19,7 @@ namespace AbstractRemontListImplement
         private DataListSingleton() 
         {
             Components = new List<Component>();
+            Clients = new List<Client>();
             Remonts = new List<Remont>();
             Ships = new List<Ship>();
             ShipComponents = new List<ShipComponents>();

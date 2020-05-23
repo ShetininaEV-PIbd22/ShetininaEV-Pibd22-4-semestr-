@@ -15,15 +15,15 @@ namespace AbstractRemontView
         public new IUnityContainer Container { get; set; }
 
         private readonly IShipLogic logicP;
-
+        private readonly IClientLogic logicC;
         private readonly MainLogic logicM;
 
-        public FormCreateRemont(IShipLogic logicP, MainLogic logicM)
+        public FormCreateRemont(IShipLogic logicP, IClientLogic logicC, MainLogic logicM)
         {
             InitializeComponent();
             this.logicP = logicP;
+            this.logicC = logicC;
             this.logicM = logicM;
-
         }
 
         private void FormCreateRemont_Load(object sender, EventArgs e)
@@ -37,6 +37,14 @@ namespace AbstractRemontView
                     comboBoxShip.ValueMember = "Id";
                     comboBoxShip.DataSource = list;
                     comboBoxShip.SelectedItem = null;
+                }
+                List<ClientViewModel> listC = logicC.Read(null);
+                if (listC != null)
+                {
+                    comboBoxClient.DisplayMember = "FIO";
+                    comboBoxClient.ValueMember = "Id";
+                    comboBoxClient.DataSource = listC;
+                    comboBoxClient.SelectedItem = null;
                 }
             }
             catch (Exception ex)
@@ -87,11 +95,18 @@ namespace AbstractRemontView
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            if (comboBoxClient.SelectedValue == null)
+            {
+                MessageBox.Show("Выберите клиента", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             try
             {
                 logicM.CreateRemont(new CreateRemontBindingModel
                 {
                     ShipId = Convert.ToInt32(comboBoxShip.SelectedValue),
+                    ClientFIO = (comboBoxClient.SelectedItem as ClientViewModel).FIO,
+                    ClientId = Convert.ToInt32(comboBoxClient.SelectedValue),
                     Count = Convert.ToInt32(textBoxCount.Text),
                     Sum = Convert.ToDecimal(textBoxSum.Text)
                 });

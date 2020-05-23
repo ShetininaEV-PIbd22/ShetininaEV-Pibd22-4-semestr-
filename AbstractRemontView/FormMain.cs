@@ -36,7 +36,6 @@ namespace AbstractRemontView
             var form = Container.Resolve<FormShips>();
             form.ShowDialog();
         }
-
         private void FormMain_Load(object sender, EventArgs e)
         {
             LoadData();
@@ -146,6 +145,12 @@ namespace AbstractRemontView
         private void списокЗаказовToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormReportRemonts>();
+            form.ShowDialog();
+        }
+
+        private void клиентыToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormClients>();
             form.ShowDialog();
         }
     }
