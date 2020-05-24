@@ -23,7 +23,6 @@ namespace AbstractRemontClientView
         public static T GetRequest<T>(string requestUrl)
         {
             var response = client.GetAsync(requestUrl);
-            //MessageBox.Show(response.ToString(), "", MessageBoxButtons.OK, MessageBoxIcon.Information);
             var result = response.Result.Content.ReadAsStringAsync().Result;
             if (response.Result.IsSuccessStatusCode)
             {
