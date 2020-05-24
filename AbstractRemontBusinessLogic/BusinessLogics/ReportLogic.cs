@@ -40,7 +40,7 @@ namespace AbstractRemontBusinessLogic.BusinessLogics
                     list.Add(record);
                 }
             }
-                return list;
+            return list;
         }
         /// <summary>
         /// Получение списка заказов за определенный период

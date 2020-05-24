@@ -36,6 +36,8 @@
             this.textBoxCount = new System.Windows.Forms.TextBox();
             this.buttonCreate = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
+            this.labelClient = new System.Windows.Forms.Label();
+            this.comboBoxClient = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // labelShip
@@ -91,7 +93,7 @@
             // 
             // buttonCreate
             // 
-            this.buttonCreate.Location = new System.Drawing.Point(177, 140);
+            this.buttonCreate.Location = new System.Drawing.Point(177, 198);
             this.buttonCreate.Name = "buttonCreate";
             this.buttonCreate.Size = new System.Drawing.Size(75, 23);
             this.buttonCreate.TabIndex = 6;
@@ -101,7 +103,7 @@
             // 
             // buttonCancel
             // 
-            this.buttonCancel.Location = new System.Drawing.Point(293, 142);
+            this.buttonCancel.Location = new System.Drawing.Point(289, 198);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 7;
@@ -109,19 +111,40 @@
             this.buttonCancel.UseVisualStyleBackColor = true;
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
             // 
+            // labelClient
+            // 
+            this.labelClient.AutoSize = true;
+            this.labelClient.Location = new System.Drawing.Point(10, 148);
+            this.labelClient.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelClient.Name = "labelClient";
+            this.labelClient.Size = new System.Drawing.Size(46, 13);
+            this.labelClient.TabIndex = 8;
+            this.labelClient.Text = "Клиент:";
+            // 
+            // comboBoxClient
+            // 
+            this.comboBoxClient.FormattingEnabled = true;
+            this.comboBoxClient.Location = new System.Drawing.Point(70, 145);
+            this.comboBoxClient.Margin = new System.Windows.Forms.Padding(2);
+            this.comboBoxClient.Name = "comboBoxClient";
+            this.comboBoxClient.Size = new System.Drawing.Size(199, 21);
+            this.comboBoxClient.TabIndex = 9;
+            // 
             // FormCreateRemont
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(391, 177);
+            this.ClientSize = new System.Drawing.Size(391, 233);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonCreate);
             this.Controls.Add(this.textBoxCount);
             this.Controls.Add(this.textBoxSum);
             this.Controls.Add(this.comboBoxShip);
+            this.Controls.Add(this.comboBoxClient);
             this.Controls.Add(this.labelSum);
             this.Controls.Add(this.labelCount);
             this.Controls.Add(this.labelShip);
+            this.Controls.Add(this.labelClient);
             this.Name = "FormCreateRemont";
             this.Text = "Ремонт";
             this.Load += new System.EventHandler(this.FormCreateRemont_Load);
@@ -135,7 +158,9 @@
         private System.Windows.Forms.Label labelShip;
         private System.Windows.Forms.Label labelCount;
         private System.Windows.Forms.Label labelSum;
+        private System.Windows.Forms.Label labelClient;
         private System.Windows.Forms.ComboBox comboBoxShip;
+        private System.Windows.Forms.ComboBox comboBoxClient;
         private System.Windows.Forms.TextBox textBoxSum;
         private System.Windows.Forms.TextBox textBoxCount;
         private System.Windows.Forms.Button buttonCreate;

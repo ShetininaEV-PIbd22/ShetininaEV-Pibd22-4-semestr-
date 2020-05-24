@@ -20,42 +20,42 @@ namespace AbstractRemontFileImplement.Implements
         }
         public void CreateOrUpdate(RemontBindingModel model)
         {
-            Remont element;
+            Remont order;
             if (model.Id.HasValue)
             {
-                element = source.Remonts.FirstOrDefault(rec => rec.Id == model.Id);
-                if (element == null)
-                {
+                order = source.Remonts.FirstOrDefault(rec => rec.Id == model.Id);
+                if (order == null)
                     throw new Exception("Элемент не найден");
-                }
             }
             else
             {
-                int maxId = source.Remonts.Count > 0 ? source.Remonts.Max(rec =>
-               rec.Id) : 0;
-                element = new Remont { Id = maxId + 1 };
-                source.Remonts.Add(element);
+                int maxId = source.Remonts.Count > 0 ? source.Remonts.Max(rec => rec.Id) : 0;
+                order = new Remont { Id = maxId + 1 };
+                source.Remonts.Add(order);
             }
-            element.ShipId = model.ShipId == 0 ? element.ShipId : model.ShipId;
-            element.Count = model.Count;
-            element.Sum = model.Sum;
-            element.Status = model.Status;
-            element.DateCreate = model.DateCreate;
-            element.DateImplement = model.DateImplement;
+            order.ShipId = model.ShipId;
+            order.ClientFIO = model.ClientFIO;
+            order.ClientId = model.ClientId;
+            order.Count = model.Count;
+            order.DateCreate = model.DateCreate;
+            order.DateImplement = model.DateImplement;
+            order.Status = model.Status;
+            order.Sum = model.Sum;
         }
+
         public void Delete(RemontBindingModel model)
         {
-            // удаяем записи по компонентам при удалении изделия
-            Remont element = source.Remonts.FirstOrDefault(rec => rec.Id ==model.Id);
-            if (element != null)
+            Remont order = source.Remonts.FirstOrDefault(rec => rec.Id == model.Id);
+            if (order != null)
             {
-                source.Remonts.Remove(element);
+                source.Remonts.Remove(order);
             }
             else
             {
                 throw new Exception("Элемент не найден");
             }
         }
+
         public List<RemontViewModel> Read(RemontBindingModel model)
         {
             return source.Remonts
@@ -63,28 +63,16 @@ namespace AbstractRemontFileImplement.Implements
             .Select(rec => new RemontViewModel
             {
                 Id = rec.Id,
-                ShipName=getName(rec.ShipId),
+                ShipId = rec.ShipId,
+                ShipName = source.Ships.FirstOrDefault((r) => r.Id == rec.ShipId).ShipName,
+                ClientFIO = rec.ClientFIO,
+                ClientId = rec.ClientId,
                 Count = rec.Count,
-                Sum = rec.Sum,
-                Status = rec.Status,
                 DateCreate = rec.DateCreate,
-                DateImplement = rec.DateImplement
-            })
-            .ToList();
-        }
-
-        private string getName(int id)
-        {
-            string ShipName = "";
-            for (int j = 0; j < source.Ships.Count; ++j)
-            {
-                if (source.Ships[j].Id == id)
-                {
-                    ShipName = source.Ships[j].ShipName;
-                    break;
-                }
-            }
-            return ShipName;
+                DateImplement = rec.DateImplement,
+                Status = rec.Status,
+                Sum = rec.Sum
+            }).ToList();
         }
     }
 }

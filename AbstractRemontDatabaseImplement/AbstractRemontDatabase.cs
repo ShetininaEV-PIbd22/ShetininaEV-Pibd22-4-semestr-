@@ -1,11 +1,5 @@
 ﻿using AbstractRemontDatabaseImplement.Models;
-using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AbstractRemontDatabaseImplement
 {
@@ -23,5 +17,6 @@ namespace AbstractRemontDatabaseImplement
         public virtual DbSet<Ship> Ships { set; get; }
         public virtual DbSet<ShipComponent> ShipComponents { set; get; }
         public virtual DbSet<Remont> Remonts { set; get; }
+        public virtual DbSet<Client> Clients { set; get; }
     }
 }
