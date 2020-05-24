@@ -21,25 +21,5 @@ namespace AbstractRemontBusinessLogic.BindingModels
         public DateTime? DateImplement { get; set; }
         public DateTime? DateFrom { get; set; }
         public DateTime? DateTo { get; set; }
-        /*
-        [DataMember]
-        public int? Id { get; set; }
-        [DataMember]
-        public int? ClientId { get; set; }
-        [DataMember]
-        public int ShipId { get; set; }
-        [DataMember]
-        public int Count { get; set; }
-        [DataMember]
-        public decimal Sum { get; set; }
-        [DataMember]
-        public RemontStatus Status { get; set; }
-        [DataMember]
-        public DateTime DateCreate { get; set; }
-        [DataMember]
-        public DateTime? DateImplement { get; set; }
-        public DateTime? DateFrom { get; set; }
-        public DateTime? DateTo { get; set; }
-        */
     }
 }
