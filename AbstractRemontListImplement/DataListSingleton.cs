@@ -15,6 +15,7 @@ namespace AbstractRemontListImplement
         public List<Ship> Ships { get; set; }
 
         public List<ShipComponents> ShipComponents { get; set; }
+        public List<Implementer> Implementers { get; set; }
 
         private DataListSingleton() 
         {
@@ -23,6 +24,7 @@ namespace AbstractRemontListImplement
             Remonts = new List<Remont>();
             Ships = new List<Ship>();
             ShipComponents = new List<ShipComponents>();
+            Implementers = new List<Implementer>();
         }
 
         public static DataListSingleton GetInstance()

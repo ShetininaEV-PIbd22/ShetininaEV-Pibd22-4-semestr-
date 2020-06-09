@@ -1,4 +1,5 @@
 ﻿using AbstractRemontBusinessLogic.BindingModels;
+using AbstractRemontBusinessLogic.Enums;
 using AbstractRemontBusinessLogic.Interfaces;
 using AbstractRemontBusinessLogic.ViewModels;
 using AbstractRemontListImplement.Models;
@@ -19,10 +20,8 @@ namespace AbstractRemontListImplement.Implements
 
         public void CreateOrUpdate(RemontBindingModel model)
         {
-            Remont tempOrder = model.Id.HasValue ? null : new Remont
-            {
-                Id = 1
-            };
+            Remont tempOrder = model.Id.HasValue ? null : new Remont { Id = 1 };
+
             foreach (var order in source.Remonts)
             {
                 if (!model.Id.HasValue && order.Id >= tempOrder.Id)
@@ -34,12 +33,14 @@ namespace AbstractRemontListImplement.Implements
                     tempOrder = order;
                 }
             }
+
             if (model.Id.HasValue)
             {
                 if (tempOrder == null)
                 {
                     throw new Exception("Элемент не найден");
                 }
+
                 CreateModel(model, tempOrder);
             }
             else
@@ -52,62 +53,81 @@ namespace AbstractRemontListImplement.Implements
         {
             for (int i = 0; i < source.Remonts.Count; ++i)
             {
-                if (source.Remonts[i].Id == model.Id.Value)
+                if (source.Remonts[i].Id == model.Id)
                 {
                     source.Remonts.RemoveAt(i);
                     return;
                 }
             }
+
             throw new Exception("Элемент не найден");
+        }
+
+        private Remont CreateModel(RemontBindingModel model, Remont order)
+        {
+            order.ShipId = model.ShipId;
+            order.Count = model.Count;
+            order.ClientId = (int)model.ClientId;
+            order.DateCreate = model.DateCreate;
+            order.DateImplement = model.DateImplement;
+            order.Sum = model.Sum;
+            order.Status = model.Status;
+
+            return order;
         }
 
         public List<RemontViewModel> Read(RemontBindingModel model)
         {
             List<RemontViewModel> result = new List<RemontViewModel>();
+
             foreach (var order in source.Remonts)
             {
-                if (model != null)
+                if (
+                    model != null && order.Id == model.Id
+                    || model.DateFrom.HasValue && model.DateTo.HasValue && order.DateCreate >= model.DateFrom && order.DateCreate <= model.DateTo
+                    || model.ClientId.HasValue && order.ClientId == model.ClientId
+                    || model.FreeRemonts.HasValue && model.FreeRemonts.Value
+                    || model.ImplementerId.HasValue && order.ImplementerId == model.ImplementerId && order.Status == RemontStatus.Выполняется
+                )
                 {
-                    if (order.Id == model.Id && order.ClientId == model.ClientId)
-                    {
-                        result.Add(CreateViewModel(order));
-                        break;
-                    }
-                    continue;
+                    result.Add(CreateViewModel(order));
+                    break;
                 }
+
                 result.Add(CreateViewModel(order));
             }
-            return result;
-        }
 
-        private Remont CreateModel(RemontBindingModel model, Remont order)
-        {
-            order.Count = model.Count;
-            order.ClientId = model.ClientId;
-            order.ClientFIO = model.ClientFIO;
-            order.DateCreate = model.DateCreate;
-            order.DateImplement = model.DateImplement;
-            order.ShipId = model.ShipId;
-            order.Status = model.Status;
-            order.Sum = model.Sum;
-            return order;
+            return result;
         }
 
         private RemontViewModel CreateViewModel(Remont order)
         {
-            var shipName = source.Ships.FirstOrDefault((n) => n.Id == order.ShipId).ShipName;
+            string productName = null;
+
+            foreach (var product in source.Ships)
+            {
+                if (product.Id == order.ShipId)
+                {
+                    productName = product.ShipName;
+                }
+            }
+
+            if (productName == null)
+            {
+                throw new Exception("Продукт не найден");
+            }
+
             return new RemontViewModel
             {
                 Id = order.Id,
-                Count = order.Count,
                 ClientId = order.ClientId,
-                ClientFIO = order.ClientFIO,
-                DateCreate = order.DateCreate,
-                DateImplement = order.DateImplement,
-                ShipName = shipName,
                 ShipId = order.ShipId,
+                ShipName = productName,
+                Count = order.Count,
+                Sum = order.Sum,
                 Status = order.Status,
-                Sum = order.Sum
+                DateCreate = order.DateCreate,
+                DateImplement = order.DateImplement
             };
         }
     }

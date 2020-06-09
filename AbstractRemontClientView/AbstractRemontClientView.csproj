@@ -16,27 +16,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="FormCreateRemont.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="FormCreateRemont.cs" />
     <Compile Update="FormCreateRemont.Designer.cs">
       <DependentUpon>FormCreateRemont.cs</DependentUpon>
     </Compile>
-    <Compile Update="FormUpdateData.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="FormUpdateData.cs" />
     <Compile Update="FormUpdateData.Designer.cs">
       <DependentUpon>FormUpdateData.cs</DependentUpon>
     </Compile>
-    <Compile Update="FormRegister.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="FormRegister.cs" />
     <Compile Update="FormRegister.Designer.cs">
       <DependentUpon>FormRegister.cs</DependentUpon>
     </Compile>
-    <Compile Update="FormEnter.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="FormEnter.cs" />
   </ItemGroup>
 
   <ItemGroup>

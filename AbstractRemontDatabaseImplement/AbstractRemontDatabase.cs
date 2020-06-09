@@ -18,5 +18,6 @@ namespace AbstractRemontDatabaseImplement
         public virtual DbSet<ShipComponent> ShipComponents { set; get; }
         public virtual DbSet<Remont> Remonts { set; get; }
         public virtual DbSet<Client> Clients { set; get; }
+        public virtual DbSet<Implementer> Implementers { set; get; }
     }
 }

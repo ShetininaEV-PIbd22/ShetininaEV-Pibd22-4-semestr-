@@ -13,16 +13,17 @@ namespace AbstractRemontView
         public new IUnityContainer Container { get; set; }
 
         private readonly MainLogic logic;
-
+        private readonly WorkModeling work;
         private readonly IRemontLogic orderLogic;
         private readonly ReportLogic report;
 
-        public FormMain(MainLogic logic, IRemontLogic orderLogic, ReportLogic report)
+        public FormMain(MainLogic mainLogic, ReportLogic reportLogic, WorkModeling work, IRemontLogic orderLogic)
         {
             InitializeComponent();
-            this.logic = logic;
+            this.logic = mainLogic;
+            this.report = reportLogic;
+            this.work = work;
             this.orderLogic = orderLogic;
-            this.report = report;
         }
 
         private void компонентыToolStripMenuItem_Click(object sender, EventArgs e)
@@ -152,6 +153,17 @@ namespace AbstractRemontView
         {
             var form = Container.Resolve<FormClients>();
             form.ShowDialog();
+        }
+
+        private void исполнителиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormImplementers>();
+            form.ShowDialog();
+        }
+
+        private void buttonStaerWork_Click(object sender, EventArgs e)
+        {
+            work.DoWork();
         }
     }
 }

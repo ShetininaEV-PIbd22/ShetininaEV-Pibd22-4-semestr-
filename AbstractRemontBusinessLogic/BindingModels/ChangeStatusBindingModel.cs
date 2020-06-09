@@ -6,5 +6,6 @@
     public class ChangeStatusBindingModel
     {
         public int RemontId { get; set; }
+        public int? ImplementerId { get; set; }
     }
 }

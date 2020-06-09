@@ -12,6 +12,7 @@ namespace AbstractRemontDatabaseImplement.Models
     {
         public int Id { get; set; }
         public int ClientId { get; set; }
+        public int? ImplementerId { get; set; }
         public int ShipId { get; set; }
         [Required]
         public string ClientFIO { set; get; }
@@ -26,5 +27,6 @@ namespace AbstractRemontDatabaseImplement.Models
         public DateTime? DateImplement { get; set; }
         public Ship Ship { get; set; }
         public Client Client { get; set; }
+        public Implementer Implementer { get; set; }
     }
 }

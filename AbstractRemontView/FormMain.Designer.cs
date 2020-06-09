@@ -32,17 +32,17 @@
             this.справочникиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.компонентыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.короблиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.клиентыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.отчетыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.списокКораблейToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.компонентыПоКораблямToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.списокЗаказовToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridView = new System.Windows.Forms.DataGridView();
             this.buttonCreateRemont = new System.Windows.Forms.Button();
-            this.buttonTakeRemontInWork = new System.Windows.Forms.Button();
-            this.buttonRemontReady = new System.Windows.Forms.Button();
             this.buttonPayRemont = new System.Windows.Forms.Button();
             this.buttonRef = new System.Windows.Forms.Button();
-            this.клиентыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.исполнителиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.buttonStaerWork = new System.Windows.Forms.Button();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
@@ -63,7 +63,8 @@
             this.справочникиToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.компонентыToolStripMenuItem,
             this.короблиToolStripMenuItem,
-            this.клиентыToolStripMenuItem});
+            this.клиентыToolStripMenuItem,
+            this.исполнителиToolStripMenuItem});
             this.справочникиToolStripMenuItem.Name = "справочникиToolStripMenuItem";
             this.справочникиToolStripMenuItem.Size = new System.Drawing.Size(94, 20);
             this.справочникиToolStripMenuItem.Text = "Справочники";
@@ -81,6 +82,13 @@
             this.короблиToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.короблиToolStripMenuItem.Text = "Корабли";
             this.короблиToolStripMenuItem.Click += new System.EventHandler(this.изделияToolStripMenuItem_Click);
+            // 
+            // клиентыToolStripMenuItem
+            // 
+            this.клиентыToolStripMenuItem.Name = "клиентыToolStripMenuItem";
+            this.клиентыToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.клиентыToolStripMenuItem.Text = "Клиенты";
+            this.клиентыToolStripMenuItem.Click += new System.EventHandler(this.клиентыToolStripMenuItem_Click_1);
             // 
             // отчетыToolStripMenuItem
             // 
@@ -131,29 +139,9 @@
             this.buttonCreateRemont.UseVisualStyleBackColor = true;
             this.buttonCreateRemont.Click += new System.EventHandler(this.buttonCreateRemont_Click);
             // 
-            // buttonTakeRemontInWork
-            // 
-            this.buttonTakeRemontInWork.Location = new System.Drawing.Point(604, 76);
-            this.buttonTakeRemontInWork.Name = "buttonTakeRemontInWork";
-            this.buttonTakeRemontInWork.Size = new System.Drawing.Size(156, 23);
-            this.buttonTakeRemontInWork.TabIndex = 3;
-            this.buttonTakeRemontInWork.Text = "Выполнить ремонт";
-            this.buttonTakeRemontInWork.UseVisualStyleBackColor = true;
-            this.buttonTakeRemontInWork.Click += new System.EventHandler(this.buttonTakeRemontInWork_Click);
-            // 
-            // buttonRemontReady
-            // 
-            this.buttonRemontReady.Location = new System.Drawing.Point(604, 105);
-            this.buttonRemontReady.Name = "buttonRemontReady";
-            this.buttonRemontReady.Size = new System.Drawing.Size(156, 23);
-            this.buttonRemontReady.TabIndex = 4;
-            this.buttonRemontReady.Text = "Ремонт готов";
-            this.buttonRemontReady.UseVisualStyleBackColor = true;
-            this.buttonRemontReady.Click += new System.EventHandler(this.buttonRemontReady_Click);
-            // 
             // buttonPayRemont
             // 
-            this.buttonPayRemont.Location = new System.Drawing.Point(604, 134);
+            this.buttonPayRemont.Location = new System.Drawing.Point(604, 90);
             this.buttonPayRemont.Name = "buttonPayRemont";
             this.buttonPayRemont.Size = new System.Drawing.Size(156, 23);
             this.buttonPayRemont.TabIndex = 5;
@@ -163,7 +151,7 @@
             // 
             // buttonRef
             // 
-            this.buttonRef.Location = new System.Drawing.Point(604, 163);
+            this.buttonRef.Location = new System.Drawing.Point(604, 396);
             this.buttonRef.Name = "buttonRef";
             this.buttonRef.Size = new System.Drawing.Size(156, 23);
             this.buttonRef.TabIndex = 6;
@@ -171,22 +159,31 @@
             this.buttonRef.UseVisualStyleBackColor = true;
             this.buttonRef.Click += new System.EventHandler(this.buttonRef_Click);
             // 
-            // клиентыToolStripMenuItem
+            // исполнителиToolStripMenuItem
             // 
-            this.клиентыToolStripMenuItem.Name = "клиентыToolStripMenuItem";
-            this.клиентыToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.клиентыToolStripMenuItem.Text = "Клиенты";
-            this.клиентыToolStripMenuItem.Click += new System.EventHandler(this.клиентыToolStripMenuItem_Click_1);
+            this.исполнителиToolStripMenuItem.Name = "исполнителиToolStripMenuItem";
+            this.исполнителиToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.исполнителиToolStripMenuItem.Text = "Исполнители";
+            this.исполнителиToolStripMenuItem.Click += new System.EventHandler(this.исполнителиToolStripMenuItem_Click);
+            // 
+            // buttonStaerWork
+            // 
+            this.buttonStaerWork.Location = new System.Drawing.Point(604, 137);
+            this.buttonStaerWork.Name = "buttonStaerWork";
+            this.buttonStaerWork.Size = new System.Drawing.Size(156, 23);
+            this.buttonStaerWork.TabIndex = 7;
+            this.buttonStaerWork.Text = "Запуск работ";
+            this.buttonStaerWork.UseVisualStyleBackColor = true;
+            this.buttonStaerWork.Click += new System.EventHandler(this.buttonStaerWork_Click);
             // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.buttonStaerWork);
             this.Controls.Add(this.buttonRef);
             this.Controls.Add(this.buttonPayRemont);
-            this.Controls.Add(this.buttonRemontReady);
-            this.Controls.Add(this.buttonTakeRemontInWork);
             this.Controls.Add(this.buttonCreateRemont);
             this.Controls.Add(this.dataGridView);
             this.Controls.Add(this.menuStrip);
@@ -210,8 +207,6 @@
         private System.Windows.Forms.ToolStripMenuItem короблиToolStripMenuItem;
         private System.Windows.Forms.DataGridView dataGridView;
         private System.Windows.Forms.Button buttonCreateRemont;
-        private System.Windows.Forms.Button buttonTakeRemontInWork;
-        private System.Windows.Forms.Button buttonRemontReady;
         private System.Windows.Forms.Button buttonPayRemont;
         private System.Windows.Forms.Button buttonRef;
         private System.Windows.Forms.ToolStripMenuItem отчетыToolStripMenuItem;
@@ -219,5 +214,7 @@
         private System.Windows.Forms.ToolStripMenuItem компонентыПоКораблямToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem списокЗаказовToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem клиентыToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem исполнителиToolStripMenuItem;
+        private System.Windows.Forms.Button buttonStaerWork;
     }
 }
