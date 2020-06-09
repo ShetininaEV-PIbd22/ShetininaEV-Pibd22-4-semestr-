@@ -102,7 +102,6 @@
             this.Controls.Add(this.labelComponentName);
             this.Name = "FormShipComponent";
             this.Text = "Компонент изделия";
-            //this.Load += new System.EventHandler(this.FormShipComponent_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
