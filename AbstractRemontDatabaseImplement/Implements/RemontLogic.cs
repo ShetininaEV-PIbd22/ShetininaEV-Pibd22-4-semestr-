@@ -8,36 +8,42 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AbstractRemontBusinessLogic.Enums;
 
 namespace AbstractRemontDatabaseImplement.Implements
 {
     public class RemontLogic : IRemontLogic
     {
-        private readonly AbstractRemontDatabase source;
         public void CreateOrUpdate(RemontBindingModel model)
         {
             using (var context = new AbstractRemontDatabase())
             {
-                Remont order;
+                Remont element;
+
                 if (model.Id.HasValue)
                 {
-                    order = context.Remonts.ToList().FirstOrDefault(rec => rec.Id == model.Id);
-                    if (order == null)
+                    element = context.Remonts.FirstOrDefault(rec => rec.Id == model.Id);
+
+                    if (element == null)
+                    {
                         throw new Exception("Элемент не найден");
+                    }
                 }
                 else
                 {
-                    order = new Remont();
-                    context.Remonts.Add(order);
+                    element = new Remont();
+                    context.Remonts.Add(element);
                 }
-                order.ShipId = model.ShipId;
-                order.ClientFIO = model.ClientFIO;
-                order.ClientId = model.ClientId;
-                order.Count = model.Count;
-                order.DateCreate = model.DateCreate;
-                order.DateImplement = model.DateImplement;
-                order.Status = model.Status;
-                order.Sum = model.Sum;
+
+                element.ShipId = model.ShipId == 0 ? element.ShipId : model.ShipId;
+                element.ClientId = model.ClientId.Value;
+                element.ImplementerId = model.ImplementerId;
+                element.Count = model.Count;
+                element.Sum = model.Sum;
+                element.Status = model.Status;
+                element.DateCreate = model.DateCreate;
+                element.DateImplement = model.DateImplement;
+
                 context.SaveChanges();
             }
         }
@@ -46,16 +52,17 @@ namespace AbstractRemontDatabaseImplement.Implements
         {
             using (var context = new AbstractRemontDatabase())
             {
-                Remont order = context.Remonts.FirstOrDefault(rec => rec.Id == model.Id);
-                if (order != null)
+                Remont element = context.Remonts.FirstOrDefault(rec => rec.Id == model.Id);
+
+                if (element != null)
                 {
-                    context.Remonts.Remove(order);
+                    context.Remonts.Remove(element);
+                    context.SaveChanges();
                 }
                 else
                 {
                     throw new Exception("Элемент не найден");
                 }
-                context.SaveChanges();
             }
         }
 
@@ -63,22 +70,34 @@ namespace AbstractRemontDatabaseImplement.Implements
         {
             using (var context = new AbstractRemontDatabase())
             {
-                return context.Remonts.Where(rec => model == null || rec.Id == model.Id || (rec.DateCreate >= model.DateFrom)
-                && (rec.DateCreate <= model.DateTo) || model.ClientId == rec.ClientId)
-                .Include(ord => ord.Ship)
-                .Select(rec => new RemontViewModel()
+                return context.Remonts
+                .Where(
+                    rec => model == null
+                    || rec.Id == model.Id && model.Id.HasValue
+                    || model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo
+                    || model.ClientId.HasValue && rec.ClientId == model.ClientId
+                    || model.FreeRemonts.HasValue && model.FreeRemonts.Value && !rec.ImplementerId.HasValue
+                    || model.ImplementerId.HasValue && rec.ImplementerId == model.ImplementerId && rec.Status == RemontStatus.Выполняется
+                )
+                .Include(rec => rec.Ship)
+                .Include(rec => rec.Client)
+                .Include(rec => rec.Implementer)
+                .Select(rec => new RemontViewModel
                 {
                     Id = rec.Id,
-                    ShipId = rec.ShipId,
-                    ClientFIO = rec.ClientFIO,
                     ClientId = rec.ClientId,
-                    ShipName = rec.Ship.ShipName,
+                    ImplementerId = rec.ImplementerId,
+                    ShipId = rec.ShipId,
                     Count = rec.Count,
+                    Sum = rec.Sum,
+                    Status = rec.Status,
                     DateCreate = rec.DateCreate,
                     DateImplement = rec.DateImplement,
-                    Status = rec.Status,
-                    Sum = rec.Sum
-                }).ToList();
+                    ShipName = rec.Ship.ShipName,
+                    ClientFIO = rec.Client.FIO,
+                    ImplementerFIO = rec.ImplementerId.HasValue ? rec.Implementer.ImplementerFIO : string.Empty,
+                })
+                .ToList();
             }
         }
     }

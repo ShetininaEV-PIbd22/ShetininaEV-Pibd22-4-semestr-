@@ -148,6 +148,7 @@
     <Compile Include="AbstractRemontDatabase.cs" />
     <Compile Include="Implements\ClientLogic.cs" />
     <Compile Include="Implements\ComponentLogic.cs" />
+    <Compile Include="Implements\ImplementerLogic.cs" />
     <Compile Include="Implements\RemontLogic.cs" />
     <Compile Include="Implements\ShipLogic.cs" />
     <Compile Include="Migrations\20200420083238_InitialCreate.cs" />
@@ -157,6 +158,7 @@
     <Compile Include="Migrations\AbstractRemontDatabaseModelSnapshot.cs" />
     <Compile Include="Models\Client.cs" />
     <Compile Include="Models\Component.cs" />
+    <Compile Include="Models\Implementer.cs" />
     <Compile Include="Models\Remont.cs" />
     <Compile Include="Models\Ship.cs" />
     <Compile Include="Models\ShipComponent.cs" />

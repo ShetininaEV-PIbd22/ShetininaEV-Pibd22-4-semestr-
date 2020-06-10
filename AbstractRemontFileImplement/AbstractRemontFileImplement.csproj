@@ -147,10 +147,12 @@
     <Compile Include="FileDataListSingleton.cs" />
     <Compile Include="Implements\ClientLogic.cs" />
     <Compile Include="Implements\ComponentLogic.cs" />
+    <Compile Include="Implements\ImplementerLogic.cs" />
     <Compile Include="Implements\RemontLogic.cs" />
     <Compile Include="Implements\ShipLogic.cs" />
     <Compile Include="Models\Client.cs" />
     <Compile Include="Models\Component.cs" />
+    <Compile Include="Models\Implementer.cs" />
     <Compile Include="Models\Remont.cs" />
     <Compile Include="Models\Ship.cs" />
     <Compile Include="Models\ShipComponent.cs" />

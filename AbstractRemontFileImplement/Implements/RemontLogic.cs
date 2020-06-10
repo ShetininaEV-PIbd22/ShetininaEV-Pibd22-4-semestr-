@@ -20,35 +20,39 @@ namespace AbstractRemontFileImplement.Implements
         }
         public void CreateOrUpdate(RemontBindingModel model)
         {
-            Remont order;
+            Remont element;
             if (model.Id.HasValue)
             {
-                order = source.Remonts.FirstOrDefault(rec => rec.Id == model.Id);
-                if (order == null)
+                element = source.Remonts.FirstOrDefault(rec => rec.Id == model.Id);
+                if (element == null)
+                {
                     throw new Exception("Элемент не найден");
+                }
             }
             else
             {
                 int maxId = source.Remonts.Count > 0 ? source.Remonts.Max(rec => rec.Id) : 0;
-                order = new Remont { Id = maxId + 1 };
-                source.Remonts.Add(order);
+                element = new Remont { Id = maxId + 1 };
+                source.Remonts.Add(element);
             }
-            order.ShipId = model.ShipId;
-            order.ClientFIO = model.ClientFIO;
-            order.ClientId = model.ClientId;
-            order.Count = model.Count;
-            order.DateCreate = model.DateCreate;
-            order.DateImplement = model.DateImplement;
-            order.Status = model.Status;
-            order.Sum = model.Sum;
+
+            element.ShipId = model.ShipId == 0 ? element.ShipId : model.ShipId;
+            element.ClientId = model.ClientId.Value;
+            element.ImplementerId = model.ImplementerId;
+            element.Count = model.Count;
+            element.Sum = model.Sum;
+            element.Status = model.Status;
+            element.DateCreate = model.DateCreate;
+            element.DateImplement = model.DateImplement;
         }
 
         public void Delete(RemontBindingModel model)
         {
-            Remont order = source.Remonts.FirstOrDefault(rec => rec.Id == model.Id);
-            if (order != null)
+            Remont element = source.Remonts.FirstOrDefault(rec => rec.Id == model.Id);
+
+            if (element != null)
             {
-                source.Remonts.Remove(order);
+                source.Remonts.Remove(element);
             }
             else
             {
@@ -59,20 +63,30 @@ namespace AbstractRemontFileImplement.Implements
         public List<RemontViewModel> Read(RemontBindingModel model)
         {
             return source.Remonts
-            .Where(rec => model == null || rec.Id == model.Id)
+            .Where(
+                rec => model == null
+                || rec.Id == model.Id
+                || model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo
+                || model.ClientId.HasValue && rec.ClientId == model.ClientId
+                || model.FreeRemonts.HasValue && model.FreeRemonts.Value && !rec.ImplementerId.HasValue
+                || model.ImplementerId.HasValue && rec.ImplementerId == model.ImplementerId && rec.Status == RemontStatus.Выполняется
+            )
             .Select(rec => new RemontViewModel
             {
                 Id = rec.Id,
-                ShipId = rec.ShipId,
-                ShipName = source.Ships.FirstOrDefault((r) => r.Id == rec.ShipId).ShipName,
-                ClientFIO = rec.ClientFIO,
                 ClientId = rec.ClientId,
+                ImplementerId = rec.ImplementerId,
+                ShipId = rec.ShipId,
+                ClientFIO = source.Clients.FirstOrDefault(recC => recC.Id == rec.ClientId)?.FIO,
+                ImplementerFIO = source.Implementers.FirstOrDefault(recC => recC.Id == rec.ImplementerId)?.ImplementerFIO,
+                ShipName = source.Ships.FirstOrDefault(recP => recP.Id == rec.ShipId)?.ShipName,
                 Count = rec.Count,
-                DateCreate = rec.DateCreate,
-                DateImplement = rec.DateImplement,
+                Sum = rec.Sum,
                 Status = rec.Status,
-                Sum = rec.Sum
-            }).ToList();
+                DateCreate = rec.DateCreate,
+                DateImplement = rec.DateImplement
+            })
+            .ToList();
         }
     }
 }
