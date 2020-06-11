@@ -20,7 +20,9 @@ namespace AbstractRemontView
         }
         private void ButtonSaveToExcel_Click(object sender, EventArgs e)
         {
-            if (dateTimePickerFrom.Value.Date >= dateTimePickerTo.Value.Date)
+            Console.WriteLine("Date to " + dateTimePickerTo.Value.Date);
+            Console.WriteLine("Date from " + dateTimePickerFrom.Value.Date);
+            if (dateTimePickerTo.Value.Date>=dateTimePickerFrom.Value.Date)
             {
                 MessageBox.Show("Дата начала должна быть меньше даты окончания", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -48,7 +50,9 @@ namespace AbstractRemontView
 
         private void ButtonMake_Click(object sender, EventArgs e)
         {
-            if (dateTimePickerFrom.Value.Date >= dateTimePickerTo.Value.Date)
+            Console.WriteLine("Date to " + dateTimePickerTo.Value.Date);
+            Console.WriteLine("Date from " + dateTimePickerFrom.Value.Date);
+            if (dateTimePickerTo.Value.Date >= dateTimePickerFrom.Value.Date)
             {
                 MessageBox.Show("Дата начала должна быть меньше даты окончания", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -57,18 +61,26 @@ namespace AbstractRemontView
             try
             {
                 var dict = logic.GetOrders(new ReportBindingModel { DateFrom = dateTimePickerFrom.Value.Date, DateTo = dateTimePickerTo.Value.Date });
+                List<DateTime> dates = new List<DateTime>();
+                foreach (var order in dict)
+                {
+                    if (!dates.Contains(order.DateCreate.Date))
+                    {
+                        dates.Add(order.DateCreate.Date);
+                    }
+                }
 
                 if (dict != null)
                 {
                     dataGridView.Rows.Clear();
 
-                    foreach (var date in dict)
+                    foreach (var date in dates)
                     {
                         decimal dateSum = 0;
 
-                        dataGridView.Rows.Add(new object[] { date.Key, "", "" });
+                        dataGridView.Rows.Add(new object[] { date.Date, "", "" });
 
-                        foreach (var order in date)
+                        foreach (var order in dict.Where(rec => rec.DateCreate.Date == date.Date))
                         {
                             dataGridView.Rows.Add(new object[] { "", order.ShipName, order.Sum });
                             dateSum += order.Sum;
