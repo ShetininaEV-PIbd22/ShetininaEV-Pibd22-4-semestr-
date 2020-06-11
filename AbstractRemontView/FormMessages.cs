@@ -23,6 +23,7 @@ namespace AbstractRemontView
         public FormMessages(IMessageInfoLogic logic)
         {
             this.logic = logic;
+
             InitializeComponent();
         }
 
@@ -35,17 +36,8 @@ namespace AbstractRemontView
         {
             try
             {
-                var list = logic.Read(null);
-                if (list != null)
-                {
-                    foreach (var m in list)
-                    {
-                        Console.WriteLine("[" + m.MassageId + "\n" + m.SenderName + "\n" + m.Subject + "\n" + m.Body + "\n" + m.DateDelivery + "]");
-                    }
-                    dataGridView.DataSource = list;
-                    dataGridView.Columns[0].Visible = false;
-                    dataGridView.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                }
+                Console.WriteLine();
+                Program.ConfigGrid(logic.Read(null), dataGridView);
             }
             catch (Exception ex)
             {

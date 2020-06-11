@@ -14,6 +14,7 @@ namespace AbstractRemontDatabaseImplement.Implements
 {
     public class RemontLogic : IRemontLogic
     {
+        private readonly AbstractRemontDatabase source;
         public void CreateOrUpdate(RemontBindingModel model)
         {
             using (var context = new AbstractRemontDatabase())
@@ -71,33 +72,33 @@ namespace AbstractRemontDatabaseImplement.Implements
             using (var context = new AbstractRemontDatabase())
             {
                 return context.Remonts
-                .Where(
-                    rec => model == null
-                    || rec.Id == model.Id && model.Id.HasValue
-                    || model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo
-                    || model.ClientId.HasValue && rec.ClientId == model.ClientId
-                    || model.FreeRemonts.HasValue && model.FreeRemonts.Value && !rec.ImplementerId.HasValue
-                    || model.ImplementerId.HasValue && rec.ImplementerId == model.ImplementerId && rec.Status == RemontStatus.Выполняется
-                )
-                .Include(rec => rec.Ship)
-                .Include(rec => rec.Client)
-                .Include(rec => rec.Implementer)
-                .Select(rec => new RemontViewModel
-                {
-                    Id = rec.Id,
-                    ClientId = rec.ClientId,
-                    ImplementerId = rec.ImplementerId,
-                    ShipId = rec.ShipId,
-                    Count = rec.Count,
-                    Sum = rec.Sum,
-                    Status = rec.Status,
-                    DateCreate = rec.DateCreate,
-                    DateImplement = rec.DateImplement,
-                    ShipName = rec.Ship.ShipName,
-                    ClientFIO = rec.Client.FIO,
-                    ImplementerFIO = rec.ImplementerId.HasValue ? rec.Implementer.ImplementerFIO : string.Empty,
-                })
-                .ToList();
+               .Where(
+                   rec => model == null
+                   || rec.Id == model.Id && model.Id.HasValue
+                   || model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo
+                   || model.ClientId.HasValue && rec.ClientId == model.ClientId
+                   || model.FreeOrders.HasValue && model.FreeOrders.Value && !rec.ImplementerId.HasValue
+                   || model.ImplementerId.HasValue && rec.ImplementerId == model.ImplementerId && rec.Status == RemontStatus.Выполняется
+               )
+               .Include(rec => rec.Ship)
+               .Include(rec => rec.Client)
+               .Include(rec => rec.Implementer)
+               .Select(rec => new RemontViewModel
+               {
+                   Id = rec.Id,
+                   ClientId = rec.ClientId,
+                   ImplementerId = rec.ImplementerId,
+                   ShipId = rec.ShipId,
+                   Count = rec.Count,
+                   Sum = rec.Sum,
+                   Status = rec.Status,
+                   DateCreate = rec.DateCreate,
+                   DateImplement = rec.DateImplement,
+                   ShipName = rec.Ship.ShipName,
+                   ClientFIO = rec.Client.FIO,
+                   ImplementerFIO = rec.ImplementerId.HasValue ? rec.Implementer.ImplementerFIO : string.Empty,
+               })
+               .ToList();
             }
         }
     }

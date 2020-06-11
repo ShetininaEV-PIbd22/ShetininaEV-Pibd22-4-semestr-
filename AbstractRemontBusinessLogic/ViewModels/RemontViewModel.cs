@@ -1,5 +1,7 @@
-﻿using AbstractRemontBusinessLogic.Enums;
+﻿using AbstractRemontBusinessLogic.Attributes;
+using AbstractRemontBusinessLogic.Enums;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
 
@@ -9,48 +11,38 @@ namespace AbstractRemontBusinessLogic.ViewModels
     /// Заказ
     /// </summary>
     [DataContract]
-    public class RemontViewModel
+    public class RemontViewModel : BaseViewModel
     {
-        [DataMember]
-        public int Id { get; set; }
-        
         [DataMember]
         public int ClientId { get; set; }
         [DataMember]
-        public int ShipId { get; set; }
-        [DataMember]
         public int? ImplementerId { get; set; }
-
         [DataMember]
-        [DisplayName("Клиент")]
+        public int ShipId { get; set; }
+        [Column(title: "Клиент", width: 150)]
+        [DataMember]
         public string ClientFIO { get; set; }
-        
+        [Column(title: "Изделие", gridViewAutoSize: GridViewAutoSize.Fill)]
         [DataMember]
-        [DisplayName("Исполнитель")]
-        public string ImplementerFIO { get; set; }
-
-        [DataMember]
-        [DisplayName("Корабль")]
         public string ShipName { get; set; }
-        
+        [Column(title: "Исполнитель", width: 150)]
         [DataMember]
-        [DisplayName("Количество")]
+        public string ImplementerFIO { get; set; }
+        [Column(title: "Количество", width: 100)]
+        [DataMember]
         public int Count { get; set; }
-        
+        [Column(title: "Сумма", width: 50)]
         [DataMember]
-        [DisplayName("Сумма")]
         public decimal Sum { get; set; }
-        
+        [Column(title: "Статус", width: 100)]
         [DataMember]
-        [DisplayName("Статус")]
         public RemontStatus Status { get; set; }
-        
+        [Column(title: "Дата создания", width: 100)]
         [DataMember]
-        [DisplayName("Дата создания")]
         public DateTime DateCreate { get; set; }
-        
+        [Column(title: "Дата выполнения", width: 100)]
         [DataMember]
-        [DisplayName("Дата выполнения")]
         public DateTime? DateImplement { get; set; }
+        public override List<string> Properties() => new List<string> { "Id", "ClientFIO", "ShipName", "ImplementerFIO", "Count", "Sum", "Status", "DateCreate", "DateImplement" };
     }
 }

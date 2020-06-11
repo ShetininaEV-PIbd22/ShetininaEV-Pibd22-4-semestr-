@@ -55,16 +55,7 @@ namespace AbstractRemontView
         {
             try
             {
-                dataGridView.Columns.Clear();
-                dataGridView.Columns.Add("Number", "№");
-                dataGridView.Columns.Add("Ingredients", "Ингредиенты");
-                dataGridView.Columns.Add("Count", "Количество");
-                if (productIngredients != null)
-                {
-                    dataGridView.Rows.Clear();
-                    foreach (var pi in productIngredients)
-                        dataGridView.Rows.Add(new object[] { pi.Key, pi.Value.Item1, pi.Value.Item2 });
-                }
+                Program.ConfigGrid(logic.Read(null), dataGridView);
             }
             catch (Exception ex)
             {

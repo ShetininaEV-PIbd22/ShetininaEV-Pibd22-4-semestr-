@@ -31,6 +31,8 @@ namespace AbstractRemontRestApi
             services.AddTransient<IClientLogic, ClientLogic>();
             services.AddTransient<IRemontLogic, RemontLogic>();
             services.AddTransient<IShipLogic, ShipLogic>();
+            services.AddTransient<IMessageInfoLogic, MessageInfoLogic>();
+            services.AddTransient<IImplementerLogic, ImplementerLogic>();
             services.AddTransient<MainLogic>();
             services.AddControllers();
         }

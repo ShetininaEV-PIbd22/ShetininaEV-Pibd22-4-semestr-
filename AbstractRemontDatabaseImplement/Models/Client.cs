@@ -22,5 +22,7 @@ namespace AbstractRemontDatabaseImplement.Models
         public string Password { get; set; }
         [ForeignKey("ClientId")]
         public virtual List<Remont> Remonts { set; get; }
+        public virtual List<MessageInfo> MessageInfos { set; get; }
+
     }
 }

@@ -7,7 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.4" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.7.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -16,19 +18,27 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="FormCreateRemont.cs" />
+    <Compile Update="FormCreateRemont.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="FormCreateRemont.Designer.cs">
       <DependentUpon>FormCreateRemont.cs</DependentUpon>
     </Compile>
-    <Compile Update="FormUpdateData.cs" />
+    <Compile Update="FormUpdateData.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="FormUpdateData.Designer.cs">
       <DependentUpon>FormUpdateData.cs</DependentUpon>
     </Compile>
-    <Compile Update="FormRegister.cs" />
+    <Compile Update="FormRegister.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="FormRegister.Designer.cs">
       <DependentUpon>FormRegister.cs</DependentUpon>
     </Compile>
-    <Compile Update="FormEnter.cs" />
+    <Compile Update="FormEnter.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>

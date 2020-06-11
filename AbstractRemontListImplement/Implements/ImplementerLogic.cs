@@ -1,14 +1,14 @@
 ﻿using AbstractRemontBusinessLogic.BindingModels;
-using AbstractRemontBusinessLogic.Interfaces;
 using AbstractRemontBusinessLogic.ViewModels;
 using AbstractRemontListImplement.Models;
+using AbstractRemontBusinessLogic.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace AbstractRemontListImplement.Implements
 {
-    public class ImplementerLogic : IImplementerLogic
+    public class ImplementerLogic: IImplementerLogic
     {
         private readonly DataListSingleton source;
 
@@ -16,7 +16,6 @@ namespace AbstractRemontListImplement.Implements
         {
             source = DataListSingleton.GetInstance();
         }
-
         public void CreateOrUpdate(ImplementerBindingModel model)
         {
             Implementer tempImplementer = new Implementer { Id = 1 };
@@ -25,6 +24,10 @@ namespace AbstractRemontListImplement.Implements
 
             foreach (var implementer in source.Implementers)
             {
+                if (implementer.ImplementerFIO == model.ImplementerFIO && implementer.Id != model.Id)
+                {
+                    throw new Exception("Уже есть такой рабочий");
+                }
                 if (implementer.Id >= tempImplementer.Id)
                 {
                     tempImplementer.Id = implementer.Id + 1;
