@@ -20,7 +20,6 @@ namespace AbstractRemontBusinessLogic.BusinessLogics
                 WorkbookPart workbookpart = spreadsheetDocument.AddWorkbookPart();
                 workbookpart.Workbook = new Workbook();
                 CreateStyles(workbookpart);
-
                 // Получаем/создаем хранилище текстов для книги
                 SharedStringTablePart shareStringPart =
                 spreadsheetDocument.WorkbookPart.GetPartsOfType<SharedStringTablePart>().Count() > 0
@@ -28,17 +27,14 @@ namespace AbstractRemontBusinessLogic.BusinessLogics
                 spreadsheetDocument.WorkbookPart.GetPartsOfType<SharedStringTablePart>().First()
                 :
                 spreadsheetDocument.WorkbookPart.AddNewPart<SharedStringTablePart>();
-
                 // Создаем SharedStringTable, если его нет
                 if (shareStringPart.SharedStringTable == null)
                 {
                     shareStringPart.SharedStringTable = new SharedStringTable();
                 }
-
                 // Создаем лист в книгу
                 WorksheetPart worksheetPart = workbookpart.AddNewPart<WorksheetPart>();
                 worksheetPart.Worksheet = new Worksheet(new SheetData());
-
                 // Добавляем лист в книгу
                 Sheets sheets = spreadsheetDocument.WorkbookPart.Workbook.AppendChild<Sheets>(new Sheets());
                 Sheet sheet = new Sheet()
@@ -58,16 +54,13 @@ namespace AbstractRemontBusinessLogic.BusinessLogics
                     Text = info.Title,
                     StyleIndex = 2U
                 });
-
                 MergeCells(new ExcelMergeParameters
                 {
                     Worksheet = worksheetPart.Worksheet,
                     CellFromName = "A1",
                     CellToName = "C1"
                 });
-
                 uint rowIndex = 2;
-
                 List<DateTime> dates = new List<DateTime>();
                 foreach (var order in info.Remonts)
                 {
@@ -76,11 +69,9 @@ namespace AbstractRemontBusinessLogic.BusinessLogics
                         dates.Add(order.DateCreate.Date);
                     }
                 }
-
                 foreach (var date in dates)
                 {
                     decimal dateSum = 0;
-
                     InsertCellInWorksheet(new ExcelCellParameters
                     {
                         Worksheet = worksheetPart.Worksheet,
@@ -90,9 +81,7 @@ namespace AbstractRemontBusinessLogic.BusinessLogics
                         Text = date.Date.ToString(),
                         StyleIndex = 0U
                     });
-
                     rowIndex++;
-
                     foreach (var order in info.Remonts.Where(rec => rec.DateCreate.Date == date.Date))
                     {
                         InsertCellInWorksheet(new ExcelCellParameters
@@ -104,7 +93,6 @@ namespace AbstractRemontBusinessLogic.BusinessLogics
                             Text = order.ShipName,
                             StyleIndex = 1U
                         });
-
                         InsertCellInWorksheet(new ExcelCellParameters
                         {
                             Worksheet = worksheetPart.Worksheet,
@@ -114,12 +102,9 @@ namespace AbstractRemontBusinessLogic.BusinessLogics
                             Text = order.Sum.ToString(),
                             StyleIndex = 1U
                         });
-
                         dateSum += order.Sum;
-
                         rowIndex++;
                     }
-
                     InsertCellInWorksheet(new ExcelCellParameters
                     {
                         Worksheet = worksheetPart.Worksheet,
@@ -129,7 +114,6 @@ namespace AbstractRemontBusinessLogic.BusinessLogics
                         Text = "Итого",
                         StyleIndex = 0U
                     });
-
                     InsertCellInWorksheet(new ExcelCellParameters
                     {
                         Worksheet = worksheetPart.Worksheet,
@@ -139,10 +123,8 @@ namespace AbstractRemontBusinessLogic.BusinessLogics
                         Text = dateSum.ToString(),
                         StyleIndex = 0U
                     });
-
                     rowIndex++;
                 }
-
                 workbookpart.Workbook.Save();
             }
         }

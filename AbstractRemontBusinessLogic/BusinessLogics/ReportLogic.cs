@@ -19,10 +19,7 @@ namespace AbstractRemontBusinessLogic.BusinessLogics
             this.componentLogic = componentLogic;
             this.orderLogic = orderLogic;
         }
-        /// <summary>
-        /// Получение списка компонент с указанием, в каких изделиях используются
-        /// </summary>
-        /// <returns></returns>
+        // Получение списка компонент с указанием, в каких изделиях используются
         public List<ReportShipComponentViewModel> GetProductComponent()
         {
             var components = componentLogic.Read(null);
@@ -47,11 +44,7 @@ namespace AbstractRemontBusinessLogic.BusinessLogics
             }
                 return list;
         }
-        /// <summary>
-        /// Получение списка заказов за определенный период
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
+        // Получение списка заказов за определенный период
         public List<ReportRemontsViewModel> GetOrders(ReportBindingModel model)
         {
             return orderLogic.Read(new RemontBindingModel
@@ -69,10 +62,7 @@ namespace AbstractRemontBusinessLogic.BusinessLogics
             })
             .ToList();
         }
-        /// <summary>
-        /// Сохранение компонент в файл-Word
-        /// </summary>
-        /// <param name="model"></param>
+        // Сохранение компонент в файл-Word
         public void SaveProductsToWordFile(ReportBindingModel model)
         {
             SaveToWord.CreateDoc(new WordInfo
@@ -82,14 +72,9 @@ namespace AbstractRemontBusinessLogic.BusinessLogics
                 Ships = productLogic.Read(null)
             });
         }
-        /// <summary>
-        /// Сохранение компонент с указаеним продуктов в файл-Excel
-        /// </summary>
-        /// <param name="model"></param>
+        // Сохранение компонент с указаеним продуктов в файл-Excel
         public void SaveOrdersToExcelFile(ReportBindingModel model)
         {
-            //var a = GetOrders(model);
-
             SaveToExcel.CreateDoc(new ExcelInfo
             {
                 FileName = model.FileName,
@@ -97,10 +82,7 @@ namespace AbstractRemontBusinessLogic.BusinessLogics
                 Remonts = GetOrders(model)
             });
         }
-        /// <summary>
-        /// Сохранение заказов в файл-Pdf
-        /// </summary>
-        /// <param name="model"></param>
+        // Сохранение заказов в файл-Pdf
         public void SaveProductComponentsToPdfFile(ReportBindingModel model)
         {
             SaveToPdf.CreateDoc(new PdfInfo

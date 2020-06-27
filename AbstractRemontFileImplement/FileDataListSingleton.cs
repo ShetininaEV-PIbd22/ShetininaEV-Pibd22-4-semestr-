@@ -30,11 +30,11 @@ namespace AbstractRemontFileImplement
         private FileDataListSingleton()
         {
             Components = LoadComponents();
-            Clients= LoadClients();
+            Clients = LoadClients();
             Remonts = LoadRemonts();
             Ships = LoadShips();
             ShipComponents = LoadShipComponents();
-            Implementers= LoadImplementers();
+            Implementers = LoadImplementers();
             MessageInfoes = LoadMessageInfoes();
         }
         public static FileDataListSingleton GetInstance()
@@ -143,36 +143,36 @@ namespace AbstractRemontFileImplement
         private List<Remont> LoadRemonts()
         {
             var list = new List<Remont>();
-                if (File.Exists(RemontFileName))
+            if (File.Exists(RemontFileName))
+            {
+                XDocument xDocument = XDocument.Load(RemontFileName);
+                Console.WriteLine("xDocument " + xDocument.ToString());
+                var xElements = xDocument.Root.Elements("Remont").ToList();
+                Console.WriteLine("xElements" + xElements.Count);
+                foreach (var ind in xElements)
                 {
-                    XDocument xDocument = XDocument.Load(RemontFileName);
-                    Console.WriteLine("xDocument " + xDocument.ToString());
-                    var xElements = xDocument.Root.Elements("Remont").ToList();
-                    Console.WriteLine("xElements"+xElements.Count);
-                    foreach (var ind in xElements)
-                    {
-                        Console.WriteLine("YES");
-                        Console.WriteLine(ind.Value);
-                    }
-                    foreach (var elem in xElements)
-                    {
-                        list.Add(new Remont
-                        {
-                            Id = Convert.ToInt32(elem.Attribute("Id").Value),
-                            ClientId= Convert.ToInt32(elem.Attribute("ClientId").Value),
-                            ShipId = Convert.ToInt32(elem.Element("ShipId").Value),
-                            Count = Convert.ToInt32(elem.Element("Count").Value),
-                            Sum = Convert.ToDecimal(elem.Element("Sum").Value),
-                            Status = (RemontStatus)Enum.Parse(typeof(RemontStatus),elem.Element("Status").Value),
-                            DateCreate = Convert.ToDateTime(elem.Element("DateCreate").Value),
-                            DateImplement =
-                       string.IsNullOrEmpty(elem.Element("DateImplement").Value) ? (DateTime?)null :
-                       Convert.ToDateTime(elem.Element("DateImplement").Value),
-                        });
-                    }
+                    Console.WriteLine("YES");
+                    Console.WriteLine(ind.Value);
                 }
-                return list;
+                foreach (var elem in xElements)
+                {
+                    list.Add(new Remont
+                    {
+                        Id = Convert.ToInt32(elem.Attribute("Id").Value),
+                        ClientId = Convert.ToInt32(elem.Attribute("ClientId").Value),
+                        ShipId = Convert.ToInt32(elem.Element("ShipId").Value),
+                        Count = Convert.ToInt32(elem.Element("Count").Value),
+                        Sum = Convert.ToDecimal(elem.Element("Sum").Value),
+                        Status = (RemontStatus)Enum.Parse(typeof(RemontStatus), elem.Element("Status").Value),
+                        DateCreate = Convert.ToDateTime(elem.Element("DateCreate").Value),
+                        DateImplement =
+                   string.IsNullOrEmpty(elem.Element("DateImplement").Value) ? (DateTime?)null :
+                   Convert.ToDateTime(elem.Element("DateImplement").Value),
+                    });
+                }
             }
+            return list;
+        }
         private List<Ship> LoadShips()
         {
             var list = new List<Ship>();

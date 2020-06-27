@@ -1,24 +1,26 @@
-﻿using System.Collections.Generic;
+﻿using AbstractRemontBusinessLogic.Attributes;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
 
 namespace AbstractRemontBusinessLogic.ViewModels
 {
-    /// <summary>
-    /// Изделие, изготавливаемое в кондитерской
-    /// </summary>
     [DataContract]
-    public class ShipViewModel
+    public class ShipViewModel : BaseViewModel
     {
+        [Column(title: "Название корабля", gridViewAutoSize: GridViewAutoSize.Fill)]
         [DataMember]
-        public int Id { get; set; }
-        [DataMember]
-        [DisplayName("Название корабля")]
         public string ShipName { get; set; }
+        [Column(title: "Цена", width: 50)]
         [DataMember]
-        [DisplayName("Цена")]
         public decimal Price { get; set; }
         [DataMember]
         public Dictionary<int, (string, int)> ShipComponents { get; set; }
+        public override List<string> Properties() => new List<string>
+        {
+            "Id",
+            "ShipName",
+            "Price"
+        };
     }
 }

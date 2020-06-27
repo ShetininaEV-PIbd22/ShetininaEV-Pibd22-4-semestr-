@@ -11,18 +11,14 @@ namespace AbstractRemontDatabaseImplement.Models
     public class Client
     {
         public int Id { get; set; }
-
         [Required]
         public string FIO { get; set; }
-
         [Required]
         public string Login { get; set; }
-
         [Required]
         public string Password { get; set; }
         [ForeignKey("ClientId")]
         public virtual List<Remont> Remonts { set; get; }
         public virtual List<MessageInfo> MessageInfos { set; get; }
-
     }
 }

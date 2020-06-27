@@ -7,9 +7,7 @@ using System.Threading.Tasks;
 
 namespace AbstractRemontDatabaseImplement.Models
 {
-    /// <summary>
     /// Сообщения, приходящие на почту
-    /// </summary>
     public class MessageInfo
     {
         [Key]
