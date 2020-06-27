@@ -91,37 +91,6 @@ namespace AbstractRemontListImplement.Implements
         private Sklad CreateModel(SkladBindingModel model, Sklad sklad)
         {
             sklad.SkladName = model.SkladName;
-            int maxPCId = 0;
-            for (int i = 0; i < source.SkladComponents.Count; ++i)
-            {
-                if (source.SkladComponents[i].Id > maxPCId)
-                    maxPCId = source.SkladComponents[i].Id;
-                if (source.SkladComponents[i].SkladId == sklad.Id)
-                {
-                    // если в модели пришла запись ингредиента с таким id
-                    if (model.SkladComponent.ContainsKey(source.SkladComponents[i].ComponentId))
-                    {
-                        // обновляем количество
-                        source.SkladComponents[i].Count =
-                            model.SkladComponent[source.SkladComponents[i].ComponentId].Item2;
-                        // из модели убираем эту запись, чтобы остались только не просмотренные
-                        model.SkladComponent.Remove(source.ShipComponents[i].ComponentId);
-                    }
-                    else
-                        source.SkladComponents.RemoveAt(i--);
-                }
-            }
-            // новые записи
-            foreach (var pi in model.SkladComponent)
-            {
-                source.SkladComponents.Add(new SkladComponent
-                {
-                    Id = ++maxPCId,
-                    SkladId = sklad.Id,
-                    ComponentId = pi.Key,
-                    Count = pi.Value.Item2
-                });
-            }
             return sklad;
         }
 
