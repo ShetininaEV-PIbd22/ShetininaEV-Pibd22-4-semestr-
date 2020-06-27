@@ -16,14 +16,14 @@ namespace AbstractRemontListImplement
 
         public List<ShipComponents> ShipComponents { get; set; }
         public List<MessageInfo> MessageInfoes { get; set; }
-        private DataListSingleton() 
+        private DataListSingleton()
         {
             Components = new List<Component>();
             Clients = new List<Client>();
             Remonts = new List<Remont>();
             Ships = new List<Ship>();
             ShipComponents = new List<ShipComponents>();
-            Implementers= new List<Implementer>();
+            Implementers = new List<Implementer>();
             MessageInfoes = new List<MessageInfo>();
         }
 

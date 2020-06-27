@@ -26,7 +26,7 @@ namespace AbstractRemontRestApi.Controllers
             this._messageLogic = messageLogic;
         }
         [HttpGet]
-        public ClientViewModel Login(string login, string password) =>    _logic.Read(new ClientBindingModel { Login = login, Password = password })?[0];
+        public ClientViewModel Login(string login, string password) => _logic.Read(new ClientBindingModel { Login = login, Password = password })?[0];
 
         [HttpGet]
         public List<MessageInfoViewModel> GetMessages(int clientId) => _messageLogic.Read(new MessageInfoBindingModel { ClientId = clientId });

@@ -8,10 +8,7 @@ namespace AbstractRemontBusinessLogic.BusinessLogics
 {
     static class SaveToWord
     {
-        /// <summary>
         /// Создание документа
-        /// </summary>
-        /// <param name="info"></param>
         public static void CreateDoc(WordInfo info)
         {
             using (WordprocessingDocument wordDocument = WordprocessingDocument.Create(info.FileName, WordprocessingDocumentType.Document))

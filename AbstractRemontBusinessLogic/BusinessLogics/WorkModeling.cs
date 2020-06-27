@@ -14,7 +14,6 @@ namespace AbstractRemontBusinessLogic.BusinessLogics
         private readonly IImplementerLogic implementerLogic;
         private readonly IRemontLogic orderLogic;
         private readonly MainLogic mainLogic;
-
         private readonly Random rnd;
 
         public WorkModeling(IImplementerLogic implementerLogic, IRemontLogic orderLogic, MainLogic mainLogic)

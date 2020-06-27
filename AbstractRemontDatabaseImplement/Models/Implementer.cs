@@ -11,7 +11,6 @@ namespace AbstractRemontDatabaseImplement.Models
     public class Implementer
     {
         public int Id { get; set; }
-
         [Required]
         public string ImplementerFIO { get; set; }
         [Required]
@@ -20,6 +19,5 @@ namespace AbstractRemontDatabaseImplement.Models
         public int PauseTime { get; set; }
         [ForeignKey("ImplementerId")]
         public virtual List<Remont> Remonts { set; get; }
-
     }
 }

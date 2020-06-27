@@ -1,8 +1,6 @@
 ﻿namespace AbstractRemontBusinessLogic.Enums
 {
-    /// <summary>
     /// Статус заказа
-    /// </summary> 
     public enum RemontStatus
     {
         Принят = 0,

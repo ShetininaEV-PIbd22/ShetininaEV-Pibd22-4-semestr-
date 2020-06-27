@@ -12,13 +12,9 @@ namespace AbstractRemontView
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
-
         public int Id { set { id = value; } }
-
         private readonly IShipLogic logic;
-
         private int? id;
-
         private Dictionary<int, (string, int)> productIngredients;
 
         public FormShip(IShipLogic service)
@@ -55,17 +51,7 @@ namespace AbstractRemontView
         {
             try
             {
-                dataGridView.Columns.Clear();
-                //dataGridView.Columns.Add("Number", "№");
-                dataGridView.Columns.Add("Components", "Компоненты");
-                dataGridView.Columns.Add("Count", "Количество");
-                if (productIngredients != null)
-                {
-                    dataGridView.Rows.Clear();
-                    foreach (var pi in productIngredients)
-                        //pi.Key, 
-                        dataGridView.Rows.Add(new object[] { pi.Value.Item1, pi.Value.Item2 });
-                }
+                Program.ConfigGrid(logic.Read(null), dataGridView);
             }
             catch (Exception ex)
             {

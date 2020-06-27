@@ -63,23 +63,6 @@ namespace AbstractRemontFileImplement.Implements
 
         public List<RemontViewModel> Read(RemontBindingModel model)
         {
-            /*
-            return source.Remonts
-            .Where(rec => model == null || rec.Id == model.Id)
-            .Select(rec => new RemontViewModel
-            {
-                Id = rec.Id,
-                ShipId = rec.ShipId,
-                ShipName = source.Ships.FirstOrDefault((r) => r.Id == rec.ShipId).ShipName,
-                ClientFIO = rec.ClientFIO,
-                ClientId = rec.ClientId,
-                Count = rec.Count,
-                DateCreate = rec.DateCreate,
-                DateImplement = rec.DateImplement,
-                Status = rec.Status,
-                Sum = rec.Sum
-            }).ToList();
-            */
             return source.Remonts
              .Where(
                  rec => model == null
