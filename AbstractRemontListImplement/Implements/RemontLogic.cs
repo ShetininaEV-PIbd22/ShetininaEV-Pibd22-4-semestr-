@@ -43,7 +43,7 @@ namespace AbstractRemontListImplement.Implements
 
         public void Delete(RemontBindingModel model)
         {
-            // удаляем записи по ингредиентам и изделиям при удалении заказа
+          // удаляем записи по ингредиентам и изделиям при удалении заказа
             for (int i = 0; i < source.ShipComponents.Count; ++i)
             {
                 if (source.ShipComponents[i].ShipId == model.Id)
@@ -64,6 +64,7 @@ namespace AbstractRemontListImplement.Implements
                     source.Remonts.RemoveAt(i);
                     return;
                 }
+            }
             throw new Exception("Элемент не найден");
         }
 
