@@ -45,16 +45,22 @@ namespace AbstractRemontBusinessLogic.BusinessLogics
             {
                 throw new Exception("Заказ не в статусе \"Принят\"");
             }
-
-            remontLogic.CreateOrUpdate(new RemontBindingModel
+            if (skladLogic.WriteOffComponents(order))
             {
-                Id = order.Id,
-                ShipId = order.ShipId,
-                Count = order.Count,
-                Sum = order.Sum,
-                DateCreate = order.DateCreate,
-                Status = RemontStatus.Выполняется
-            });
+                remontLogic.CreateOrUpdate(new RemontBindingModel
+                {
+                    Id = order.Id,
+                    ShipId = order.ShipId,
+                    Count = order.Count,
+                    Sum = order.Sum,
+                    DateCreate = order.DateCreate,
+                    Status = RemontStatus.Выполняется
+                });
+            }
+            else
+            {
+                throw new Exception("На складах недостаточно компонентов");
+            }
         }
 
         public void FinishRemont(ChangeStatusBindingModel model)

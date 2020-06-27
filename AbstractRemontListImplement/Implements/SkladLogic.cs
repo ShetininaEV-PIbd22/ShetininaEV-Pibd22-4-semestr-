@@ -90,41 +90,6 @@ namespace AbstractRemontListImplement.Implements
 
         private Sklad CreateModel(SkladBindingModel model, Sklad sklad)
         {
-            /*
-            sklad.SkladName = model.SkladName;
-            int maxPCId = 0;
-            for (int i = 0; i < source.SkladComponents.Count; ++i)
-            {
-                if (source.SkladComponents[i].Id > maxPCId)
-                    maxPCId = source.SkladComponents[i].Id;
-                if (source.SkladComponents[i].SkladId == sklad.Id)
-                {
-                    // если в модели пришла запись ингредиента с таким id
-                    if (model.SkladComponent.ContainsKey(source.SkladComponents[i].ComponentId))
-                    {
-                        // обновляем количество
-                        source.SkladComponents[i].Count =
-                            model.SkladComponent[source.SkladComponents[i].ComponentId].Item2;
-                        // из модели убираем эту запись, чтобы остались только не просмотренные
-                        model.SkladComponent.Remove(source.ShipComponents[i].ComponentId);
-                    }
-                    else
-                        source.SkladComponents.RemoveAt(i--);
-                }
-            }
-            // новые записи
-            foreach (var pi in model.SkladComponent)
-            {
-                source.SkladComponents.Add(new SkladComponent
-                {
-                    Id = ++maxPCId,
-                    SkladId = sklad.Id,
-                    ComponentId = pi.Key,
-                    Count = pi.Value.Item2
-                });
-            }
-            return sklad;
-            */
             sklad.SkladName = model.SkladName;
             return sklad;
         }
@@ -189,6 +154,52 @@ namespace AbstractRemontListImplement.Implements
                     Count = model.Count
                 });
             }
+        }
+        public bool WriteOffComponents(RemontViewModel model)
+        {
+            var product = source.Ships.Where(rec => rec.Id == model.ShipId).FirstOrDefault();
+
+            if (product == null)
+            {
+                throw new Exception("Заказ не найден");
+            }
+
+            var productComponents = source.ShipComponents.Where(rec => rec.ShipId == product.Id).ToList();
+
+            if (productComponents == null)
+            {
+                throw new Exception("Не найдена связь продукта с компонентами");
+            }
+
+            foreach (var pc in productComponents)
+            {
+                var warehouseComponent = source.SkladComponents.Where(rec => rec.ComponentId == pc.ComponentId);
+                int sum = warehouseComponent.Sum(rec => rec.Count);
+                if (sum < pc.Count * model.Count)
+                {
+                    return false;
+                }
+            }
+
+            foreach (var pc in productComponents)
+            {
+                var warehouseComponent = source.SkladComponents.Where(rec => rec.ComponentId == pc.ComponentId);
+                int neededCount = pc.Count;
+                foreach (var wc in warehouseComponent)
+                {
+                    if (wc.Count >= neededCount)
+                    {
+                        wc.Count -= neededCount;
+                        break;
+                    }
+                    else
+                    {
+                        neededCount -= wc.Count;
+                        wc.Count = 0;
+                    }
+                }
+            }
+            return true;
         }
     }
 }
