@@ -73,6 +73,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FormAddSklad.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAddSklad.Designer.cs">
+      <DependentUpon>FormAddSklad.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormComponent.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -115,8 +121,23 @@
     <Compile Include="FormShips.Designer.cs">
       <DependentUpon>FormShips.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormSklad.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSklad.Designer.cs">
+      <DependentUpon>FormSklad.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormSklads.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSklads.Designer.cs">
+      <DependentUpon>FormSklads.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FormAddSklad.resx">
+      <DependentUpon>FormAddSklad.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormComponent.resx">
       <DependentUpon>FormComponent.cs</DependentUpon>
     </EmbeddedResource>
@@ -137,6 +158,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormShips.resx">
       <DependentUpon>FormShips.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSklad.resx">
+      <DependentUpon>FormSklad.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -166,9 +190,9 @@
       <Project>{b80b83b4-167a-4b14-b9b7-9554f2110253}</Project>
       <Name>AbstractRemontBusinessLogic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AbstractRemontListImplement\AbstractRemontListImplement.csproj">
-      <Project>{769ccd10-c3a6-4e45-9dc4-46b99c0b75e7}</Project>
-      <Name>AbstractRemontListImplement</Name>
+    <ProjectReference Include="..\AbstractRemontFileImplement\AbstractRemontFileImplement.csproj">
+      <Project>{fdc03b47-8d1e-4d0a-aee3-6aa4b2a910dd}</Project>
+      <Name>AbstractRemontFileImplement</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

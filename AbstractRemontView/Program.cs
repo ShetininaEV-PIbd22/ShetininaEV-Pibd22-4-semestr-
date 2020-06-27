@@ -1,5 +1,6 @@
-﻿using AbstractRemontBusinessLogic.Interfaces;
-using AbstractRemontListImplement.Implements;
+﻿using AbstractRemontBusinessLogic.BusinessLogics;
+using AbstractRemontBusinessLogic.Interfaces;
+using AbstractRemontFileImplement.Implements;
 using System;
 using System.Windows.Forms;
 using Unity;
@@ -27,6 +28,7 @@ namespace AbstractRemontView
             currentContainer.RegisterType<IComponentLogic, ComponentLogic>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IRemontLogic, RemontLogic>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IShipLogic, ShipLogic>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<ISkladLogic, SkladLogic>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<MainLogic>(new HierarchicalLifetimeManager());
             return currentContainer;
         }
