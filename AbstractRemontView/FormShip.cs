@@ -19,7 +19,7 @@ namespace AbstractRemontView
 
         private int? id;
 
-        private Dictionary<int, (string, int)> shipComponents;
+        private Dictionary<int, (string, int)> productComponents;
 
         public FormShip(IShipLogic service)
         {
@@ -34,11 +34,15 @@ namespace AbstractRemontView
                 try
                 {
                     ShipViewModel view = logic.Read(new ShipBindingModel { Id = id.Value })?[0];
+                    foreach (var sc in view.ShipComponents)
+                    {
+                        Console.WriteLine("FormShip= " + sc);
+                    }
                     if (view != null)
                     {
                         textBoxName.Text = view.ShipName;
                         textBoxPrice.Text = view.Price.ToString();
-                        shipComponents = view.ShipComponents;
+                        productComponents = view.ShipComponents;
                         LoadData();
                     }
                 }
@@ -48,17 +52,23 @@ namespace AbstractRemontView
                 }
             }
             else
-                shipComponents = new Dictionary<int, (string, int)>();
+                productComponents = new Dictionary<int, (string, int)>();
         }
 
         private void LoadData()
         {
             try
             {
-                if (shipComponents != null)
+                dataGridView.Columns.Clear();
+                dataGridView.Columns.Add("Number", "№");
+                dataGridView.Columns.Add("Components", "Компонентыы");
+                dataGridView.Columns.Add("Count", "Количество");
+                dataGridView.Columns[0].Visible = false;
+                dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                if (productComponents != null)
                 {
                     dataGridView.Rows.Clear();
-                    foreach (var pi in shipComponents)
+                    foreach (var pi in productComponents)
                         dataGridView.Rows.Add(new object[] { pi.Key, pi.Value.Item1, pi.Value.Item2 });
                 }
             }
@@ -73,13 +83,13 @@ namespace AbstractRemontView
             var form = Container.Resolve<FormShipComponent>();
             if (form.ShowDialog() == DialogResult.OK)
             {
-                if (shipComponents.ContainsKey(form.Id))
+                if (productComponents.ContainsKey(form.Id))
                 {
-                    shipComponents[form.Id] = (form.ComponentName, form.Count);
+                    productComponents[form.Id] = (form.ComponentName, form.Count);
                 }
                 else
                 {
-                    shipComponents.Add(form.Id, (form.ComponentName, form.Count));
+                    productComponents.Add(form.Id, (form.ComponentName, form.Count));
                 }
                 LoadData();
             }
@@ -92,10 +102,10 @@ namespace AbstractRemontView
                 var form = Container.Resolve<FormShipComponent>();
                 int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                 form.Id = id;
-                form.Count = shipComponents[id].Item2;
+                form.Count = productComponents[id].Item2;
                 if (form.ShowDialog() == DialogResult.OK)
                 {
-                    shipComponents[form.Id] = (form.ComponentName, form.Count);
+                    productComponents[form.Id] = (form.ComponentName, form.Count);
                     LoadData();
                 }
             }
@@ -110,7 +120,7 @@ namespace AbstractRemontView
                 {
                     try
                     {
-                        shipComponents.Remove(Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value));
+                        productComponents.Remove(Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value));
                     }
                     catch (Exception ex)
                     {
@@ -138,7 +148,7 @@ namespace AbstractRemontView
                 MessageBox.Show("Заполните цену", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            if (shipComponents == null || shipComponents.Count == 0)
+            if (productComponents == null || productComponents.Count == 0)
             {
                 MessageBox.Show("Заполните ингредиенты", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -150,7 +160,7 @@ namespace AbstractRemontView
                     Id = id,
                     ShipName = textBoxName.Text,
                     Price = Convert.ToDecimal(textBoxPrice.Text),
-                    ShipComponents = shipComponents
+                    ShipComponents = productComponents
                 });
                 MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DialogResult = DialogResult.OK;

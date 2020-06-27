@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AbstractRemontListImplement.Models
+﻿namespace AbstractRemontListImplement.Models
 {
     /// <summary>
-    /// Корабль, изготавливаемый в мастерской
+    /// Изделие, изготавливаемое в кондитерской
     /// </summary>
     public class Ship
     {

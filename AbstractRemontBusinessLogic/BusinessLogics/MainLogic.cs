@@ -8,16 +8,18 @@ namespace AbstractRemontBusinessLogic.BusinessLogics
     // Создание заказа и смена его статусов
     public class MainLogic
     {
-        private readonly IRemontLogic orderLogic;
+        private readonly IRemontLogic remontLogic;
+        private readonly ISkladLogic skladLogic;
 
-        public MainLogic(IRemontLogic orderLogic)
+        public MainLogic(IRemontLogic remontLogic, ISkladLogic skladLogic)
         {
-            this.orderLogic = orderLogic;
+            this.remontLogic = remontLogic;
+            this.skladLogic = skladLogic;
         }
 
         public void CreateRemont(CreateRemontBindingModel model)
         {
-            orderLogic.CreateOrUpdate(new RemontBindingModel
+            remontLogic.CreateOrUpdate(new RemontBindingModel
             {
                 ShipId = model.ShipId,
                 Count = model.Count,
@@ -29,16 +31,50 @@ namespace AbstractRemontBusinessLogic.BusinessLogics
 
         public void TakeRemontInWork(ChangeStatusBindingModel model)
         {
-            var order = orderLogic.Read(new RemontBindingModel { Id = model.RemontId })?[0];
+            var order = remontLogic.Read(new RemontBindingModel 
+            { 
+                Id = model.RemontId 
+            })?[0];
+
             if (order == null)
             {
-                throw new Exception("Не найдена заявка на ремонт");
+                throw new Exception("Не найден заказ");
             }
+
             if (order.Status != RemontStatus.Принят)
             {
-                throw new Exception("Ремонт не в статусе \"Принят\"");
+                throw new Exception("Заказ не в статусе \"Принят\"");
             }
-            orderLogic.CreateOrUpdate(new RemontBindingModel
+
+            remontLogic.CreateOrUpdate(new RemontBindingModel
+            {
+                Id = order.Id,
+                ShipId = order.ShipId,
+                Count = order.Count,
+                Sum = order.Sum,
+                DateCreate = order.DateCreate,
+                Status = RemontStatus.Выполняется
+            });
+        }
+
+        public void FinishRemont(ChangeStatusBindingModel model)
+        {
+            var order = remontLogic.Read(new RemontBindingModel 
+            { 
+                Id = model.RemontId 
+            })?[0];
+
+            if (order == null)
+            {
+                throw new Exception("Не найден заказ");
+            }
+
+            if (order.Status != RemontStatus.Выполняется)
+            {
+                throw new Exception("Заказ не в статусе \"Выполняется\"");
+            }
+
+            remontLogic.CreateOrUpdate(new RemontBindingModel
             {
                 Id = order.Id,
                 ShipId = order.ShipId,
@@ -46,45 +82,28 @@ namespace AbstractRemontBusinessLogic.BusinessLogics
                 Sum = order.Sum,
                 DateCreate = order.DateCreate,
                 DateImplement = DateTime.Now,
-                Status = RemontStatus.Выполняется
-            });
-        }
-
-        public void FinishRemont(ChangeStatusBindingModel model)
-        {
-            var order = orderLogic.Read(new RemontBindingModel { Id = model.RemontId})?[0];
-            if (order == null)
-            {
-                throw new Exception("Не найдена заявка на ремонт");
-            }
-            if (order.Status != RemontStatus.Выполняется)
-            {
-                throw new Exception("Ремонт не в статусе \"Выполняется\"");
-            }
-            orderLogic.CreateOrUpdate(new RemontBindingModel
-            {
-                Id = order.Id,
-                ShipId = order.ShipId,
-                Count = order.Count,
-                Sum = order.Sum,
-                DateCreate = order.DateCreate,
-                DateImplement = order.DateImplement,
                 Status = RemontStatus.Готов
             });
         }
 
         public void PayRemont(ChangeStatusBindingModel model)
         {
-            var order = orderLogic.Read(new RemontBindingModel { Id = model.RemontId})?[0];
+            var order = remontLogic.Read(new RemontBindingModel 
+            { 
+                Id = model.RemontId 
+            })?[0];
+
             if (order == null)
             {
-                throw new Exception("Не найдена заявка на ремонт");
+                throw new Exception("Не найден заказ");
             }
+
             if (order.Status != RemontStatus.Готов)
             {
-                throw new Exception("Ремонт не в статусе \"Готов\"");
+                throw new Exception("Заказ не в статусе \"Готов\"");
             }
-            orderLogic.CreateOrUpdate(new RemontBindingModel
+
+            remontLogic.CreateOrUpdate(new RemontBindingModel
             {
                 Id = order.Id,
                 ShipId = order.ShipId,
@@ -94,6 +113,11 @@ namespace AbstractRemontBusinessLogic.BusinessLogics
                 DateImplement = order.DateImplement,
                 Status = RemontStatus.Оплачен
             });
+        }
+
+        public void AddComponents(SkladComponentBindingModel model)
+        {
+            skladLogic.AddComponent(model);
         }
     }
 }
