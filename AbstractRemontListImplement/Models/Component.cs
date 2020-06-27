@@ -1,7 +1,7 @@
 ﻿namespace AbstractRemontListImplement.Models
 {
     /// <summary>
-    /// Компонент, требуемый для изготовления коробля
+    /// Компонент, требуемый для изготовления корабля
     /// </summary>
     public class Component
     {

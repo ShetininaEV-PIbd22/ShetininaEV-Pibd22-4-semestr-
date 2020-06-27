@@ -1,7 +1,7 @@
 ﻿namespace AbstractRemontBusinessLogic.BindingModels
 {
     /// <summary>
-    ///  Компоненты, требуемые для изготовления коробля 
+    ///  Компоненты, требуемые для изготовления корабля 
     /// </summary>
     public class ComponentBindingModel
     {

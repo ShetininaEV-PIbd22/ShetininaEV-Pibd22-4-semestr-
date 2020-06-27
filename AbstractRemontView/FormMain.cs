@@ -23,6 +23,32 @@ namespace AbstractRemontView
             this.orderLogic = orderLogic;
         }
 
+        private void FormMain_Load(object sender, EventArgs e)
+        {
+            LoadData();
+        }
+
+        private void LoadData()
+        {
+            try
+            {
+                var list = orderLogic.Read(null);
+
+                if (list != null)
+                {
+                    dataGridView.DataSource = list;
+                    dataGridView.Columns[0].Visible = false;
+                    dataGridView.Columns[1].Visible = false;
+                    dataGridView.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
+                MessageBoxIcon.Error);
+            }
+        }
+
         private void компонентыToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormComponents>();
@@ -35,36 +61,18 @@ namespace AbstractRemontView
             form.ShowDialog();
         }
 
-        private void FormMain_Load(object sender, EventArgs e)
+        private void складыToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            LoadData();
-        }
-
-        private void LoadData()
-        {
-            try
-            {
-                var list = orderLogic.Read(null);
-                if (list != null)
-                {
-
-                    dataGridView.DataSource = list;
-                    dataGridView.Columns[0].Visible = false;
-                    dataGridView.Columns[1].Visible = false;
-                    dataGridView.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            var form = Container.Resolve<FormSklads>();
+            form.ShowDialog();
         }
 
         private void buttonCreateRemont_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormCreateRemont>();
-            if (form.ShowDialog() == DialogResult.OK)
-                LoadData();
+
+            form.ShowDialog();
+            LoadData();
         }
 
         private void buttonTakeRemontInWork_Click(object sender, EventArgs e)
@@ -72,6 +80,7 @@ namespace AbstractRemontView
             if (dataGridView.SelectedRows.Count == 1)
             {
                 int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
+
                 try
                 {
                     logic.TakeRemontInWork(new ChangeStatusBindingModel { RemontId = id });
@@ -79,7 +88,8 @@ namespace AbstractRemontView
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
                 }
             }
         }
@@ -89,6 +99,7 @@ namespace AbstractRemontView
             if (dataGridView.SelectedRows.Count == 1)
             {
                 int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
+
                 try
                 {
                     logic.FinishRemont(new ChangeStatusBindingModel { RemontId = id });
@@ -96,7 +107,8 @@ namespace AbstractRemontView
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
                 }
             }
         }
@@ -106,6 +118,7 @@ namespace AbstractRemontView
             if (dataGridView.SelectedRows.Count == 1)
             {
                 int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
+
                 try
                 {
                     logic.PayRemont(new ChangeStatusBindingModel { RemontId = id });
@@ -113,7 +126,8 @@ namespace AbstractRemontView
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
                 }
             }
         }
@@ -121,6 +135,12 @@ namespace AbstractRemontView
         private void buttonRef_Click(object sender, EventArgs e)
         {
             LoadData();
+        }
+
+        private void buttonReplenishSklad_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormAddSklad>();
+            form.ShowDialog();
         }
     }
 }
