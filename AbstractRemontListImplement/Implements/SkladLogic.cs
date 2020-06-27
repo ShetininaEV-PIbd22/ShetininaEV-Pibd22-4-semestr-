@@ -155,5 +155,51 @@ namespace AbstractRemontListImplement.Implements
                 });
             }
         }
+        public bool WriteOffComponents(RemontViewModel model)
+        {
+            var product = source.Ships.Where(rec => rec.Id == model.ShipId).FirstOrDefault();
+
+            if (product == null)
+            {
+                throw new Exception("Заказ не найден");
+            }
+
+            var productComponents = source.ShipComponents.Where(rec => rec.ShipId == product.Id).ToList();
+
+            if (productComponents == null)
+            {
+                throw new Exception("Не найдена связь продукта с компонентами");
+            }
+
+            foreach (var pc in productComponents)
+            {
+                var warehouseComponent = source.SkladComponents.Where(rec => rec.ComponentId == pc.ComponentId);
+                int sum = warehouseComponent.Sum(rec => rec.Count);
+                if (sum < pc.Count * model.Count)
+                {
+                    return false;
+                }
+            }
+
+            foreach (var pc in productComponents)
+            {
+                var warehouseComponent = source.SkladComponents.Where(rec => rec.ComponentId == pc.ComponentId);
+                int neededCount = pc.Count;
+                foreach (var wc in warehouseComponent)
+                {
+                    if (wc.Count >= neededCount)
+                    {
+                        wc.Count -= neededCount;
+                        break;
+                    }
+                    else
+                    {
+                        neededCount -= wc.Count;
+                        wc.Count = 0;
+                    }
+                }
+            }
+            return true;
+        }
     }
 }

@@ -12,5 +12,6 @@ namespace AbstractRemontBusinessLogic.Interfaces
         void CreateOrUpdate(SkladBindingModel model);
         void Delete(SkladBindingModel model);
         void AddComponent(SkladComponentBindingModel model);
+        bool WriteOffComponents(RemontViewModel model);
     }
 }
