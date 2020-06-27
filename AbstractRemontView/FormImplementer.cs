@@ -10,9 +10,7 @@ namespace AbstractRemontView
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
-
         public int Id { set { id = value; } }
-
         private readonly IImplementerLogic logic;
         private int? id;
 

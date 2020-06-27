@@ -13,7 +13,6 @@ namespace AbstractRemontView
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
-
         private readonly IShipLogic logicP;
         private readonly IClientLogic logicC;
         private readonly MainLogic logicM;

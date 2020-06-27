@@ -15,7 +15,6 @@ namespace AbstractRemontDatabaseImplement.Models
         [Required]
         public decimal Price { get; set; }
         public virtual ShipComponent ShipComponent { get; set; }
-
         public virtual List<Remont> Remonts { get; set; }
     }
 }

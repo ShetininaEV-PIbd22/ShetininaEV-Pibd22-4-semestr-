@@ -12,13 +12,9 @@ namespace AbstractRemontView
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
-
         public int Id { set { id = value; } }
-
         private readonly IShipLogic logic;
-
         private int? id;
-
         private Dictionary<int, (string, int)> productIngredients;
 
         public FormShip(IShipLogic service)

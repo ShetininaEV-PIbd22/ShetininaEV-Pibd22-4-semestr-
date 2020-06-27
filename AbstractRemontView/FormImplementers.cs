@@ -15,7 +15,6 @@ namespace AbstractRemontView
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
-
         private readonly IImplementerLogic logic;
 
         public FormImplementers(IImplementerLogic logic)

@@ -4,9 +4,7 @@ using System.Runtime.Serialization;
 
 namespace AbstractRemontBusinessLogic.ViewModels
 {
-    /// <summary>
     /// Базовый класс для View-моделей
-    /// </summary>
     [DataContract]
     public abstract class BaseViewModel
     {

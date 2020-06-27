@@ -10,7 +10,6 @@ namespace AbstractRemontView
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
-
         private readonly IComponentLogic logic;
 
         public FormComponents(IComponentLogic logic)

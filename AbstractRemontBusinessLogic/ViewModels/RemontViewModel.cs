@@ -7,9 +7,7 @@ using System.Runtime.Serialization;
 
 namespace AbstractRemontBusinessLogic.ViewModels
 {
-    /// <summary>
     /// Заказ
-    /// </summary>
     [DataContract]
     public class RemontViewModel : BaseViewModel
     {

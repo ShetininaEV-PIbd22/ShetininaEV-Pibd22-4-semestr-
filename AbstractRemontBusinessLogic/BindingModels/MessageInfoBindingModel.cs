@@ -5,9 +5,7 @@ using System.Text;
 
 namespace AbstractRemontBusinessLogic.BindingModels
 {
-    /// <summary>
-    /// Сообщения, приходящие на почту
-    /// </summary>
+    // Сообщения, приходящие на почту
     [DataContract]
     public class MessageInfoBindingModel
     {

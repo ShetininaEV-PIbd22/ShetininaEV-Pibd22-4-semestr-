@@ -3,9 +3,7 @@ using System;
 
 namespace AbstractRemontListImplement.Models
 {
-    /// <summary>
     /// Заказ
-    /// </summary>
     public class Remont
     {
         public int Id { get; set; }

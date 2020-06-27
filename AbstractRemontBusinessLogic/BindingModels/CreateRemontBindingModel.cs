@@ -2,9 +2,7 @@
 
 namespace AbstractRemontBusinessLogic.BindingModels
 {
-    /// <summary>
-    /// Данные от клиента, для создания заказа
-    /// </summary>
+    // Данные от клиента, для создания заказа
     [DataContract]
     public class CreateRemontBindingModel
     {

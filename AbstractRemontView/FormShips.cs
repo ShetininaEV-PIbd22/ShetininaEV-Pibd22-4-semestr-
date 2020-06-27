@@ -10,9 +10,8 @@ namespace AbstractRemontView
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
-
         private readonly IShipLogic logic;
-
+        
         public FormShips(IShipLogic logic)
         {
             InitializeComponent();
