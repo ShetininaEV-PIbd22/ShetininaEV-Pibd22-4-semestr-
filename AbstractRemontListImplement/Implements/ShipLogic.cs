@@ -18,38 +18,44 @@ namespace AbstractRemontListImplement.Implements
 
         public void CreateOrUpdate(ShipBindingModel model)
         {
-            Ship tempShip = model.Id.HasValue ? null : new Ship { Id = 1 };
-            foreach (var ship in source.Ships)
+            Ship tempProduct = model.Id.HasValue ? null : new Ship { Id = 1 };
+            foreach (var product in source.Ships)
             {
-                if (ship.ShipName == model.ShipName && ship.Id != model.Id)
+                if (product.ShipName == model.ShipName && product.Id != model.Id)
+                {
                     throw new Exception("Уже есть корабль с таким названием");
-                if (!model.Id.HasValue && ship.Id >= tempShip.Id)
-                {
-                    tempShip.Id = ship.Id + 1;
                 }
-                else if (model.Id.HasValue && ship.Id == model.Id)
+                if (!model.Id.HasValue && product.Id >= tempProduct.Id)
                 {
-                    tempShip = ship;
+                    tempProduct.Id = product.Id + 1;
+                }
+                else if (model.Id.HasValue && product.Id == model.Id)
+                {
+                    tempProduct = product;
                 }
             }
             if (model.Id.HasValue)
             {
-                if (tempShip == null)
+                if (tempProduct == null)
                 {
                     throw new Exception("Элемент не найден");
                 }
-                CreateModel(model, tempShip);
+                CreateModel(model, tempProduct);
             }
             else
-                source.Ships.Add(CreateModel(model, tempShip));
+                source.Ships.Add(CreateModel(model, tempProduct));
         }
 
         public void Delete(ShipBindingModel model)
         {
             // удаляем записи по ингредиентам при удалении изделия
             for (int i = 0; i < source.ShipComponents.Count; ++i)
-                if (source.ShipComponents[i].ProductId == model.Id)
+            {
+                if (source.ShipComponents[i].ShipId == model.Id)
+                {
                     source.ShipComponents.RemoveAt(i--);
+                }
+            }
             for (int i = 0; i < source.Ships.Count; ++i)
                 if (source.Ships[i].Id == model.Id)
                 {
@@ -62,18 +68,18 @@ namespace AbstractRemontListImplement.Implements
         public List<ShipViewModel> Read(ShipBindingModel model)
         {
             List<ShipViewModel> result = new List<ShipViewModel>();
-            foreach (var ship in source.Ships)
+            foreach (var ingredient in source.Ships)
             {
                 if (model != null)
                 {
-                    if (ship.Id == model.Id)
+                    if (ingredient.Id == model.Id)
                     {
-                        result.Add(CreateViewModel(ship));
+                        result.Add(CreateViewModel(ingredient));
                         break;
                     }
                     continue;
                 }
-                result.Add(CreateViewModel(ship));
+                result.Add(CreateViewModel(ingredient));
             }
             return result;
         }
@@ -82,24 +88,22 @@ namespace AbstractRemontListImplement.Implements
         {
             product.ShipName = model.ShipName;
             product.Price = model.Price;
-            //обновляем существуюущие ингредиенты и ищем максимальный идентификатор
+            //обновляем существуюущие компоненты и ищем максимальный идентификатор
             int maxPCId = 0;
             for (int i = 0; i < source.ShipComponents.Count; ++i)
             {
                 if (source.ShipComponents[i].Id > maxPCId)
-                {
                     maxPCId = source.ShipComponents[i].Id;
-                }
-                if (source.ShipComponents[i].ProductId == product.Id)
+                if (source.ShipComponents[i].ShipId == product.Id)
                 {
                     // если в модели пришла запись ингредиента с таким id
-                    if (model.ShipComponents.ContainsKey(source.ShipComponents[i].IngredientId))
+                    if (model.ShipComponents.ContainsKey(source.ShipComponents[i].ComponentId))
                     {
                         // обновляем количество
                         source.ShipComponents[i].Count =
-                            model.ShipComponents[source.ShipComponents[i].IngredientId].Item2;
+                            model.ShipComponents[source.ShipComponents[i].ComponentId].Item2;
                         // из модели убираем эту запись, чтобы остались только не просмотренные
-                        model.ShipComponents.Remove(source.ShipComponents[i].IngredientId);
+                        model.ShipComponents.Remove(source.ShipComponents[i].ComponentId);
                     }
                     else
                         source.ShipComponents.RemoveAt(i--);
@@ -111,8 +115,8 @@ namespace AbstractRemontListImplement.Implements
                 source.ShipComponents.Add(new ShipComponents
                 {
                     Id = ++maxPCId,
-                    ProductId = product.Id,
-                    IngredientId = pi.Key,
+                    ShipId = product.Id,
+                    ComponentId = pi.Key,
                     Count = pi.Value.Item2
                 });
             }
@@ -122,25 +126,27 @@ namespace AbstractRemontListImplement.Implements
         private ShipViewModel CreateViewModel(Ship product)
         {
             // требуется дополнительно получить список компонентов для изделия с названиями и их количество
-            Dictionary<int, (string, int)> productIngredients = new Dictionary<int, (string, int)>();
+            Dictionary<int, (string, int)> productComponents = new Dictionary<int, (string, int)>();
             foreach (var pi in source.ShipComponents)
-                if (pi.ProductId == product.Id)
+                if (pi.ShipId == product.Id)
                 {
                     string componentName = string.Empty;
                     foreach (var component in source.Components)
-                        if (pi.IngredientId == component.Id)
+                    {
+                        if (pi.ComponentId == component.Id)
                         {
                             componentName = component.ComponentName;
                             break;
                         }
-                    productIngredients.Add(pi.IngredientId, (componentName, pi.Count));
+                    }
+                    productComponents.Add(pi.ComponentId, (componentName, pi.Count));
                 }
             return new ShipViewModel
             {
                 Id = product.Id,
                 ShipName = product.ShipName,
                 Price = product.Price,
-                ShipComponents = productIngredients
+                ShipComponents = productComponents
             };
         }
     }
