@@ -10,7 +10,7 @@ namespace AbstractRemontBusinessLogic.BusinessLogics
 {
     public class ReportLogic
     {
-        private readonly IComponentLogic componentLogic;
+         private readonly IComponentLogic componentLogic;
         private readonly IShipLogic productLogic;
         private readonly IRemontLogic orderLogic;
         public ReportLogic(IShipLogic productLogic, IComponentLogic componentLogic, IRemontLogic orderLogic)
