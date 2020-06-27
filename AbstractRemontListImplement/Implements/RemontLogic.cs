@@ -64,6 +64,7 @@ namespace AbstractRemontListImplement.Implements
                     source.Remonts.RemoveAt(i);
                     return;
                 }
+            }
             throw new Exception("Элемент не найден");
         }
 
