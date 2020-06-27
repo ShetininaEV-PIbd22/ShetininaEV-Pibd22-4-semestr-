@@ -25,41 +25,49 @@ namespace AbstractRemontBusinessLogic.BusinessLogics
         /// <returns></returns>
         public List<ReportShipComponentViewModel> GetProductComponent()
         {
+            var components = componentLogic.Read(null);
             var products = productLogic.Read(null);
             var list = new List<ReportShipComponentViewModel>();
+            Console.WriteLine("Ships count"+ products.Count);
             foreach (var product in products)
             {
-                foreach (var pc in product.ShipComponents)
-                {
-                    var record = new ReportShipComponentViewModel
+                    foreach (var component in components)
                     {
-                        ShipName = product.ShipName,
-                        ComponentName = pc.Value.Item1,
-                        Count = pc.Value.Item2
-                    };
-                    list.Add(record);
-                }
+                        if (product.ShipComponents.ContainsKey(component.Id))
+                        {
+                            list.Add(new ReportShipComponentViewModel
+                            {
+                                ShipName= product.ShipName,
+                                ComponentName = component.ComponentName,
+                                Count = product.ShipComponents[component.Id].Item2
+                            });
+                        }
+
+                    }
             }
-            return list;
+                return list;
         }
         /// <summary>
         /// Получение списка заказов за определенный период
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public List<IGrouping<DateTime, RemontViewModel>> GetOrders(ReportBindingModel model)
+        public List<ReportRemontsViewModel> GetOrders(ReportBindingModel model)
         {
-            var list = orderLogic
-            .Read(new RemontBindingModel
+            return orderLogic.Read(new RemontBindingModel
             {
                 DateFrom = model.DateFrom,
                 DateTo = model.DateTo
             })
-            .GroupBy(rec => rec.DateCreate.Date)
-            .OrderBy(recG => recG.Key)
+            .Select(x => new ReportRemontsViewModel
+            {
+                DateCreate = x.DateCreate,
+                ShipName = x.ShipName,
+                Count = x.Count,
+                Sum = x.Sum,
+                Status = x.Status
+            })
             .ToList();
-
-            return list;
         }
         /// <summary>
         /// Сохранение компонент в файл-Word
@@ -80,6 +88,8 @@ namespace AbstractRemontBusinessLogic.BusinessLogics
         /// <param name="model"></param>
         public void SaveOrdersToExcelFile(ReportBindingModel model)
         {
+            //var a = GetOrders(model);
+
             SaveToExcel.CreateDoc(new ExcelInfo
             {
                 FileName = model.FileName,

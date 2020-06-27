@@ -21,9 +21,11 @@ namespace AbstractRemontFileImplement.Implements
         public void CreateOrUpdate(RemontBindingModel model)
         {
             Remont element;
+
             if (model.Id.HasValue)
             {
                 element = source.Remonts.FirstOrDefault(rec => rec.Id == model.Id);
+
                 if (element == null)
                 {
                     throw new Exception("Элемент не найден");
@@ -48,11 +50,10 @@ namespace AbstractRemontFileImplement.Implements
 
         public void Delete(RemontBindingModel model)
         {
-            Remont element = source.Remonts.FirstOrDefault(rec => rec.Id == model.Id);
-
-            if (element != null)
+            Remont order = source.Remonts.FirstOrDefault(rec => rec.Id == model.Id);
+            if (order != null)
             {
-                source.Remonts.Remove(element);
+                source.Remonts.Remove(order);
             }
             else
             {
@@ -62,31 +63,48 @@ namespace AbstractRemontFileImplement.Implements
 
         public List<RemontViewModel> Read(RemontBindingModel model)
         {
+            /*
             return source.Remonts
-            .Where(
-                rec => model == null
-                || rec.Id == model.Id
-                || model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo
-                || model.ClientId.HasValue && rec.ClientId == model.ClientId
-                || model.FreeRemonts.HasValue && model.FreeRemonts.Value && !rec.ImplementerId.HasValue
-                || model.ImplementerId.HasValue && rec.ImplementerId == model.ImplementerId && rec.Status == RemontStatus.Выполняется
-            )
+            .Where(rec => model == null || rec.Id == model.Id)
             .Select(rec => new RemontViewModel
             {
                 Id = rec.Id,
-                ClientId = rec.ClientId,
-                ImplementerId = rec.ImplementerId,
                 ShipId = rec.ShipId,
-                ClientFIO = source.Clients.FirstOrDefault(recC => recC.Id == rec.ClientId)?.FIO,
-                ImplementerFIO = source.Implementers.FirstOrDefault(recC => recC.Id == rec.ImplementerId)?.ImplementerFIO,
-                ShipName = source.Ships.FirstOrDefault(recP => recP.Id == rec.ShipId)?.ShipName,
+                ShipName = source.Ships.FirstOrDefault((r) => r.Id == rec.ShipId).ShipName,
+                ClientFIO = rec.ClientFIO,
+                ClientId = rec.ClientId,
                 Count = rec.Count,
-                Sum = rec.Sum,
-                Status = rec.Status,
                 DateCreate = rec.DateCreate,
-                DateImplement = rec.DateImplement
-            })
-            .ToList();
+                DateImplement = rec.DateImplement,
+                Status = rec.Status,
+                Sum = rec.Sum
+            }).ToList();
+            */
+            return source.Remonts
+             .Where(
+                 rec => model == null
+                 || rec.Id == model.Id
+                 || model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo
+                 || model.ClientId.HasValue && rec.ClientId == model.ClientId
+                 || model.FreeOrders.HasValue && model.FreeOrders.Value && !rec.ImplementerId.HasValue
+                 || model.ImplementerId.HasValue && rec.ImplementerId == model.ImplementerId && rec.Status == RemontStatus.Выполняется
+             )
+             .Select(rec => new RemontViewModel
+             {
+                 Id = rec.Id,
+                 ClientId = rec.ClientId,
+                 ImplementerId = rec.ImplementerId,
+                 ShipId = rec.ShipId,
+                 ClientFIO = source.Clients.FirstOrDefault(recC => recC.Id == rec.ClientId)?.FIO,
+                 ImplementerFIO = source.Implementers.FirstOrDefault(recC => recC.Id == rec.ImplementerId)?.ImplementerFIO,
+                 ShipName = source.Ships.FirstOrDefault(recP => recP.Id == rec.ShipId)?.ShipName,
+                 Count = rec.Count,
+                 Sum = rec.Sum,
+                 Status = rec.Status,
+                 DateCreate = rec.DateCreate,
+                 DateImplement = rec.DateImplement
+             })
+             .ToList();
         }
     }
 }

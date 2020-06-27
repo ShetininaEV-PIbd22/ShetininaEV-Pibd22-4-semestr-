@@ -68,15 +68,25 @@ namespace AbstractRemontListImplement.Implements
         public List<ClientViewModel> Read(ClientBindingModel model)
         {
             List<ClientViewModel> result = new List<ClientViewModel>();
+
             foreach (var client in source.Clients)
             {
                 if (model != null)
                 {
-                    if (client.Id == model.Id)
+                    if (model.Id.HasValue)
+                    {
+                        if (client.Id == model.Id)
+                        {
+                            result.Add(CreateViewModel(client));
+                            break;
+                        }
+                    }
+                    else if (client.Login == model.Login && client.Password == model.Password)
                     {
                         result.Add(CreateViewModel(client));
                         break;
                     }
+
                     continue;
                 }
                 result.Add(CreateViewModel(client));
@@ -87,6 +97,8 @@ namespace AbstractRemontListImplement.Implements
         private Client CreateModel(ClientBindingModel model, Client client)
         {
             client.FIO = model.FIO;
+            client.Login = model.Login;
+            client.Password = model.Password;
             return client;
         }
 
@@ -95,7 +107,9 @@ namespace AbstractRemontListImplement.Implements
             return new ClientViewModel
             {
                 Id = client.Id,
-                FIO = client.FIO
+                FIO = client.FIO,
+                Login = client.Login,
+                Password = client.Password
             };
         }
     }
