@@ -14,7 +14,9 @@ namespace AbstractRemontBusinessLogic.BusinessLogics
         private readonly IImplementerLogic implementerLogic;
         private readonly IRemontLogic orderLogic;
         private readonly MainLogic mainLogic;
+
         private readonly Random rnd;
+
         public WorkModeling(IImplementerLogic implementerLogic, IRemontLogic orderLogic, MainLogic mainLogic)
         {
             this.implementerLogic = implementerLogic;
@@ -22,35 +24,37 @@ namespace AbstractRemontBusinessLogic.BusinessLogics
             this.mainLogic = mainLogic;
             rnd = new Random(1000);
         }
-        /// <summary>
+
         /// Запуск работ
-        /// </summary>
         public void DoWork()
         {
             var implementers = implementerLogic.Read(null);
-            var orders = orderLogic.Read(new RemontBindingModel { FreeRemonts = true });
+            var orders = orderLogic.Read(new RemontBindingModel { FreeOrders = true });
+            Console.WriteLine("work");
             foreach (var implementer in implementers)
             {
                 WorkerWorkAsync(implementer, orders);
             }
         }
-        /// <summary>
+
         /// Иммитация работы исполнителя
-        /// </summary>
-        /// <param name="implementer"></param>
-        /// <param name="orders"></param>
         private async void WorkerWorkAsync(ImplementerViewModel implementer, List<RemontViewModel> orders)
         {
+            Console.WriteLine("WorkerWorkAsync");
             // ищем заказы, которые уже в работе (вдруг исполнителя прервали)
             var runOrders = await Task.Run(() => orderLogic.Read(new RemontBindingModel { ImplementerId = implementer.Id }));
+            Console.WriteLine("WorkerWorkAsync1 "+runOrders);
             foreach (var order in runOrders)
             {
+                Console.WriteLine(order.ImplementerFIO);
                 // делаем работу заново
                 Thread.Sleep(implementer.WorkingTime * rnd.Next(1, 5) * order.Count);
                 mainLogic.FinishRemont(new ChangeStatusBindingModel { RemontId = order.Id });
+                Console.WriteLine("do");
                 // отдыхаем
                 Thread.Sleep(implementer.PauseTime);
             }
+
             await Task.Run(() =>
             {
                 foreach (var order in orders)
@@ -59,9 +63,11 @@ namespace AbstractRemontBusinessLogic.BusinessLogics
                     try
                     {
                         mainLogic.TakeRemontInWork(new ChangeStatusBindingModel { RemontId = order.Id, ImplementerId = implementer.Id });
+
                         // делаем работу
                         Thread.Sleep(implementer.WorkingTime * rnd.Next(1, 5) * order.Count);
                         mainLogic.FinishRemont(new ChangeStatusBindingModel { RemontId = order.Id });
+
                         // отдыхаем
                         Thread.Sleep(implementer.PauseTime);
                     }
@@ -71,3 +77,4 @@ namespace AbstractRemontBusinessLogic.BusinessLogics
         }
     }
 }
+

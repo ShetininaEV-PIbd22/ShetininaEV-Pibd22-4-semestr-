@@ -68,7 +68,16 @@ namespace AbstractRemontBusinessLogic.BusinessLogics
 
                 uint rowIndex = 2;
 
-                foreach (var date in info.Remonts)
+                List<DateTime> dates = new List<DateTime>();
+                foreach (var order in info.Remonts)
+                {
+                    if (!dates.Contains(order.DateCreate.Date))
+                    {
+                        dates.Add(order.DateCreate.Date);
+                    }
+                }
+
+                foreach (var date in dates)
                 {
                     decimal dateSum = 0;
 
@@ -78,13 +87,13 @@ namespace AbstractRemontBusinessLogic.BusinessLogics
                         ShareStringPart = shareStringPart,
                         ColumnName = "A",
                         RowIndex = rowIndex,
-                        Text = date.Key.ToString(),
+                        Text = date.Date.ToString(),
                         StyleIndex = 0U
                     });
 
                     rowIndex++;
 
-                    foreach (var order in date)
+                    foreach (var order in info.Remonts.Where(rec => rec.DateCreate.Date == date.Date))
                     {
                         InsertCellInWorksheet(new ExcelCellParameters
                         {
@@ -107,6 +116,7 @@ namespace AbstractRemontBusinessLogic.BusinessLogics
                         });
 
                         dateSum += order.Sum;
+
                         rowIndex++;
                     }
 

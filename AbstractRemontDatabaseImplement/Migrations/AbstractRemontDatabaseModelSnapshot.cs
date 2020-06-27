@@ -15,7 +15,7 @@ namespace AbstractRemontDatabaseImplement.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.2")
+                .HasAnnotation("ProductVersion", "3.1.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -59,16 +59,61 @@ namespace AbstractRemontDatabaseImplement.Migrations
                     b.ToTable("Components");
                 });
 
-            modelBuilder.Entity("AbstractRemontDatabaseImplement.Models.Remont", b =>
+            modelBuilder.Entity("AbstractRemontDatabaseImplement.Models.Implementer", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ClientFIO")
+                    b.Property<string>("ImplementerFIO")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PauseTime")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WorkingTime")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Implementers");
+                });
+
+            modelBuilder.Entity("AbstractRemontDatabaseImplement.Models.MessageInfo", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Body")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ClientId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateDelivery")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("SenderName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Subject")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.ToTable("MessageInfos");
+                });
+
+            modelBuilder.Entity("AbstractRemontDatabaseImplement.Models.Remont", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("ClientId")
                         .HasColumnType("int");
@@ -82,6 +127,9 @@ namespace AbstractRemontDatabaseImplement.Migrations
                     b.Property<DateTime?>("DateImplement")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("ImplementerId")
+                        .HasColumnType("int");
+
                     b.Property<int>("ShipId")
                         .HasColumnType("int");
 
@@ -94,6 +142,8 @@ namespace AbstractRemontDatabaseImplement.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ClientId");
+
+                    b.HasIndex("ImplementerId");
 
                     b.HasIndex("ShipId");
 
@@ -145,6 +195,13 @@ namespace AbstractRemontDatabaseImplement.Migrations
                     b.ToTable("ShipComponents");
                 });
 
+            modelBuilder.Entity("AbstractRemontDatabaseImplement.Models.MessageInfo", b =>
+                {
+                    b.HasOne("AbstractRemontDatabaseImplement.Models.Client", "Client")
+                        .WithMany("MessageInfos")
+                        .HasForeignKey("ClientId");
+                });
+
             modelBuilder.Entity("AbstractRemontDatabaseImplement.Models.Remont", b =>
                 {
                     b.HasOne("AbstractRemontDatabaseImplement.Models.Client", "Client")
@@ -152,6 +209,10 @@ namespace AbstractRemontDatabaseImplement.Migrations
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("AbstractRemontDatabaseImplement.Models.Implementer", "Implementer")
+                        .WithMany("Remonts")
+                        .HasForeignKey("ImplementerId");
 
                     b.HasOne("AbstractRemontDatabaseImplement.Models.Ship", "Ship")
                         .WithMany("Remonts")

@@ -10,14 +10,14 @@ using System.Threading.Tasks;
 
 namespace AbstractRemontDatabaseImplement.Implements
 {
-    public class ImplementerLogic : IImplementerLogic
+    public class ImplementerLogic: IImplementerLogic
     {
-        public void CreateOrUpdate(ImplementerBindingModel model)
+       public void CreateOrUpdate(ImplementerBindingModel model)
         {
             using (var context = new AbstractRemontDatabase())
             {
-                Implementer element = context.Implementers.FirstOrDefault(rec => rec.ImplementerFIO == model.ImplementerFIO 
-                && rec.Id != model.Id);
+                Implementer element = context.Implementers.FirstOrDefault(rec =>
+               rec.ImplementerFIO == model.ImplementerFIO && rec.Id != model.Id);
                 if (element != null)
                 {
                     throw new Exception("Уже есть такой рабочий");

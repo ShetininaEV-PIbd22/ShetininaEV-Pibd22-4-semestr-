@@ -164,6 +164,7 @@
             // 
             this.ColumnId.HeaderText = "Id";
             this.ColumnId.Name = "ColumnId";
+            this.ColumnId.Visible = false;
             // 
             // ColumnComponent
             // 

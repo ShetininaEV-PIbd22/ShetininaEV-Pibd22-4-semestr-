@@ -23,7 +23,6 @@ namespace AbstractRemontClientView
                 {
                     APIClient.PostRequest("api/client/updatedata", new ClientBindingModel
                     {
-                        Id = Program.Client.Id,
                         FIO = textBoxClientFIO.Text,
                         Login = textBoxEmail.Text,
                         Password = textBoxPassword.Text

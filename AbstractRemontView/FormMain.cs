@@ -17,13 +17,13 @@ namespace AbstractRemontView
         private readonly IRemontLogic orderLogic;
         private readonly ReportLogic report;
 
-        public FormMain(MainLogic mainLogic, ReportLogic reportLogic, WorkModeling work, IRemontLogic orderLogic)
+        public FormMain(MainLogic logic, ReportLogic report, WorkModeling work, IRemontLogic orderLogic)
         {
             InitializeComponent();
-            this.logic = mainLogic;
-            this.report = reportLogic;
-            this.work = work;
+            this.logic = logic;
             this.orderLogic = orderLogic;
+            this.work = work;
+            this.report = report;
         }
 
         private void компонентыToolStripMenuItem_Click(object sender, EventArgs e)
@@ -35,6 +35,11 @@ namespace AbstractRemontView
         private void изделияToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormShips>();
+            form.ShowDialog();
+        }
+        private void исполнителиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormImplementers>();
             form.ShowDialog();
         }
         private void FormMain_Load(object sender, EventArgs e)
@@ -53,7 +58,8 @@ namespace AbstractRemontView
                     dataGridView.DataSource = list;
                     dataGridView.Columns[0].Visible = false;
                     dataGridView.Columns[1].Visible = false;
-                    dataGridView.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    dataGridView.Columns[2].Visible = false;
+                    dataGridView.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                 }
             }
             catch (Exception ex)
@@ -131,7 +137,7 @@ namespace AbstractRemontView
              {
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    report.SaveProductsToWordFile(new ReportBindingModel { FileName = dialog.FileName });//!!!!!!!!!!
+                    report.SaveProductsToWordFile(new ReportBindingModel { FileName = dialog.FileName });
                     MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
              }
@@ -155,15 +161,16 @@ namespace AbstractRemontView
             form.ShowDialog();
         }
 
-        private void исполнителиToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var form = Container.Resolve<FormImplementers>();
-            form.ShowDialog();
-        }
-
-        private void buttonStaerWork_Click(object sender, EventArgs e)
+        private void buttonStartWork_Click(object sender, EventArgs e)
         {
             work.DoWork();
+            LoadData();
+        }
+
+        private void buttonMessages_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormMessages>();
+            form.ShowDialog();
         }
     }
 }

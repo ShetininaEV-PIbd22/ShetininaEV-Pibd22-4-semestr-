@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace AbstractRemontFileImplement.Implements
 {
-    public class ImplementerLogic : IImplementerLogic
+    public class ImplementerLogic: IImplementerLogic
     {
         private readonly FileDataListSingleton source;
 
@@ -18,7 +18,6 @@ namespace AbstractRemontFileImplement.Implements
         {
             source = FileDataListSingleton.GetInstance();
         }
-
         public void CreateOrUpdate(ImplementerBindingModel model)
         {
             Implementer element = source.Implementers.FirstOrDefault(rec => rec.ImplementerFIO == model.ImplementerFIO && rec.Id != model.Id);

@@ -11,13 +11,11 @@ namespace AbstractRemontClientView
     public class APIClient
     {
         private static readonly HttpClient client = new HttpClient();
-        static bool  metka=false;
         public static void Connect()
         {
             client.BaseAddress = new Uri(ConfigurationManager.AppSettings["IPAddress"]);
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            metka = true;
         }
 
         public static T GetRequest<T>(string requestUrl)
@@ -45,10 +43,6 @@ namespace AbstractRemontClientView
             {
                 throw new Exception(result);
             }
-        }
-        public static bool GetContact()
-        {
-            return metka;
         }
     }
 }
