@@ -1,0 +1,50 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.4" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.7.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AbstractRemontBusinessLogic\AbstractRemontBusinessLogic.csproj" />
+    <ProjectReference Include="..\AbstractRemontDatabaseImplement\AbstractRemontDatabaseImplement.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="FormCreateRemont.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FormCreateRemont.Designer.cs">
+      <DependentUpon>FormCreateRemont.cs</DependentUpon>
+    </Compile>
+    <Compile Update="FormUpdateData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FormUpdateData.Designer.cs">
+      <DependentUpon>FormUpdateData.cs</DependentUpon>
+    </Compile>
+    <Compile Update="FormRegister.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FormRegister.Designer.cs">
+      <DependentUpon>FormRegister.cs</DependentUpon>
+    </Compile>
+    <Compile Update="FormEnter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="FormComponent.resx">
+      <DependentUpon>FormComponent.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>

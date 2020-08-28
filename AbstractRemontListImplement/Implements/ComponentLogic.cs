@@ -1,0 +1,88 @@
+﻿using AbstractRemontBusinessLogic.BindingModels;
+using AbstractRemontBusinessLogic.Interfaces;
+using AbstractRemontBusinessLogic.ViewModels;
+using AbstractRemontListImplement.Models;
+using System;
+using System.Collections.Generic;
+
+namespace AbstractRemontListImplement.Implements
+{
+    public class ComponentLogic : IComponentLogic
+    {
+        private readonly DataListSingleton source;
+
+        public ComponentLogic()
+        {
+            source = DataListSingleton.GetInstance();
+        }
+
+        public void CreateOrUpdate(ComponentBindingModel model)
+        {
+            Component tempIngredient = model.Id.HasValue ? null : new Component { Id = 1 };
+            foreach (var ingredient in source.Components)
+            {
+                if (ingredient.ComponentName == model.ComponentName && ingredient.Id != model.Id)
+                    throw new Exception("Уже есть ингредиент с таким названием");
+                if (!model.Id.HasValue && ingredient.Id >= tempIngredient.Id)
+                    tempIngredient.Id = ingredient.Id + 1;
+                else if (model.Id.HasValue && ingredient.Id == model.Id)
+                    tempIngredient = ingredient;
+            }
+            if (model.Id.HasValue)
+            {
+                if (tempIngredient == null)
+                    throw new Exception("Элемент не найден");
+                CreateModel(model, tempIngredient);
+            }
+            else
+            {
+                source.Components.Add(CreateModel(model, tempIngredient));
+            }
+        }
+
+        public void Delete(ComponentBindingModel model)
+        {
+            for (int i = 0; i < source.Components.Count; ++i)
+                if (source.Components[i].Id == model.Id.Value)
+                {
+                    source.Components.RemoveAt(i);
+                    return;
+                }
+            throw new Exception("Элемент не найден");
+        }
+
+        public List<ComponentViewModel> Read(ComponentBindingModel model)
+        {
+            List<ComponentViewModel> result = new List<ComponentViewModel>();
+            foreach (var component in source.Components)
+            {
+                if (model != null)
+                {
+                    if (component.Id == model.Id)
+                    {
+                        result.Add(CreateViewModel(component));
+                        break;
+                    }
+                    continue;
+                }
+                result.Add(CreateViewModel(component));
+            }
+            return result;
+        }
+
+        private Component CreateModel(ComponentBindingModel model, Component ingredient)
+        {
+            ingredient.ComponentName = model.ComponentName;
+            return ingredient;
+        }
+
+        private ComponentViewModel CreateViewModel(Component ingredient)
+        {
+            return new ComponentViewModel
+            {
+                Id = ingredient.Id,
+                ComponentName = ingredient.ComponentName
+            };
+        }
+    }
+}
